@@ -13,10 +13,8 @@ import static spark.Spark.get;
 
 import com.heroku.sdk.jdbc.DatabaseUrl;
 
-import static javax.measure.unit.SI.KILOGRAM;
-import javax.measure.quantity.Mass;
-import org.jscience.physics.model.RelativisticModel;
-import org.jscience.physics.amount.Amount;
+import org.eclipse.jetty.websocket.api.*;
+import org.eclipse.jetty.websocket.api.annotations.*;
 
 public class Main {
 
@@ -24,13 +22,7 @@ public class Main {
 
     port(Integer.valueOf(System.getenv("PORT")));
     staticFileLocation("/public");
-    get("/hello", (req, res) -> {
-         RelativisticModel.select();
-         String energy = System.getenv().get("ENERGY");
-
-         Amount<Mass> m = Amount.valueOf(energy).to(KILOGRAM);
-         return "E=mc^2: " + energy + " = " + m.toString();
-    });
+    get("/hello", (req, res) -> "Hello");
 
     get("/", (request, response) -> {
             Map<String, Object> attributes = new HashMap<>();
