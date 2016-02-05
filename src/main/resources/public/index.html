@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+  <meta charset="UTF-8">
+  <title>Dashboard</title>
+  <link href="stylesheets/css/base.css" rel="stylesheet"/>
+</head>
+<body>
+    <nav id="app_banner">
+    </nav>
+    <section id="app_container">
+        <div id="projects_container">
+        </div>
+    </section>
+
+    <aside>
+    </aside>
+
+    <script type="text/template" id="banner_template">
+        <div id="site_logo">
+            logo
+        </div>
+        <div id="profile">
+            profile
+        </div>
+        <div id="notification">
+            notification
+        </div>
+    </script>
+
+    <script id="dashboard_template">
+    </script>
+
+    <script id="aside_nav_template" type="text/template">
+        <ol>
+            <li class="aside_nav_item selected">
+                <a href="/index.html?u=<%= uid %>">Dashboard</a>
+            </li>
+            <li class="aside_nav_item">
+                <a href="/create.html?u=<%= uid %>">Create New Project</a>
+            </li>
+            <li class="aside_nav_item">
+                <a href="/relations.html?u=<%= uid %>">Relations</a>
+            </li>
+        </ol>
+    </script>
+
+    <script src="bundle/main.js" type="application/javascript"></script>
+</body>
+</html>
