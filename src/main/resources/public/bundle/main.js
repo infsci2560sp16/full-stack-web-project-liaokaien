@@ -13306,9 +13306,13 @@ function success(data){
 if(path === 'index'){
     var BannerView = require('./view/Banner-View.js');
     var DashboardView = require('./view/Dashboard-View.js');
-    // Load user_data: notification_list...
+    // load notifications
     $.getJSON(fetchUrl, success);
+    //Render dashboard
     new DashboardView();
+    //Auto select 'Recent' Tab
+    $('.tab.recent').click();
+
 }
 
 },{"./view/Banner-View.js":8,"./view/Dashboard-View.js":9,"jquery":3}],7:[function(require,module,exports){
@@ -13337,11 +13341,9 @@ module.exports = Backbone.View.extend({
     },
 
     render: function(){
-        console.log(this.model);
         this.$el.append(this.template(this.model));
     },
     showNotificationBox: function(){
-        console.log('hah');
         this.$el.find('ul').show();
     },
     hideNotificationBox: function(){
@@ -13399,20 +13401,22 @@ module.exports = Backbone.View.extend({
 
 },{"./ProjectItem-View.js":11,"backbone":1,"jquery":3}],11:[function(require,module,exports){
 var Backbone = require('backbone');
+var _ = require('underscore');
+var $ = require('jquery');
 
 module.exports = Backbone.View.extend({
     tagName: 'li',
+    template: _.template($('#list_item_template').html()),
     className: 'project_item',
     initialize:function(){
         this.render();
     },
     render: function(){
-        this.$el.html(this.model.get('name'));
+        this.$el.html(this.template(this.model.attributes));
     }
-
 });
 
-},{"backbone":1}],12:[function(require,module,exports){
+},{"backbone":1,"jquery":3,"underscore":4}],12:[function(require,module,exports){
 var Backbone = require('backbone');
 var ListView = require('./List-View.js');
 var ProjectsListModel = require('../collection/ProjectsCollection.js');

@@ -61,6 +61,14 @@
         <div id="projects_container"></div>
     </script>
 
+    <script type="text/template" id="list_item_template">
+        <span class="project_name"><%- name %></span>
+        <span class="project_type <%- type %>"><%- type %></span>
+        <span class="related_user">
+            <a href="/user_profile?uid=<%- related_uid %>"><%- related_uname %></a>
+        </span>
+    </script>
+
     <script src="bundle/main.js" type="application/javascript"></script>
 </body>
 </html>

@@ -12,7 +12,11 @@ function success(data){
 if(path === 'index'){
     var BannerView = require('./view/Banner-View.js');
     var DashboardView = require('./view/Dashboard-View.js');
-    // Load user_data: notification_list...
+    // load notifications
     $.getJSON(fetchUrl, success);
+    //Render dashboard
     new DashboardView();
+    //Auto select 'Recent' Tab
+    $('.tab.recent').click();
+
 }

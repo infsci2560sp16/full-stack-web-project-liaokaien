@@ -4,6 +4,24 @@ aside, #app_container {
 aside{
     float: left;
     width: 20%;
+
+    ol{
+        list-style: none;
+        li{
+            margin:6px 0;
+            a{
+                padding-left: 16px;
+                text-decoration: none;
+                color: #555858;
+            }
+        }
+        li.selected{
+            a{
+                border-left: 4px solid #5C6BC0;
+                padding-left: 12px;
+            }
+        }
+    }
 }
 
 #app_container{
@@ -12,27 +30,37 @@ aside{
 }
 
 #tab_switcher{
-    $tab_switcher_color: #7b1fa3;
-    border-radius: 8px;
-    width: 380px;
+    $purple: #5C6BC0;
+    border-radius: 6px;
+    width: 362px;
     display: flex;
     justify-content: space-between;
-    background-color: $tab_switcher_color;
-    border: $tab_switcher_color solid 1px;
     height: 1.4em;
-    padding: 4px 1px;
     margin: 0 auto;
+    border: 1px $purple solid;
     .tab{
         width: 120px;
-        border-right: 2px solid #E6E6E6;
         margin: 0;
         line-height: 1.4em;
         font-family: 'avenir';
         text-align: center;
-        color: #E6E6E6;
+        color: $purple;
         cursor: pointer;
+        border-right: 1px solid $purple;
+        border-left: 1px solid $purple;
+        &:first-child{
+            border-top-left-radius: 3px;
+            border-bottom-left-radius:3px;
+            border: none;
+        }
         &:last-child{
-            border-right: none;
+            border: none;
+            border-top-right-radius: 3px;
+            border-bottom-right-radius:3px;
+        }
+        &.selected{
+            color: #F0F0F0;
+            background-color: $purple;
         }
     }
     
@@ -41,7 +69,6 @@ aside{
 #projects_container{
     width: 60%;
     margin:0 auto;
-
 }
 
 .project_list{
@@ -50,8 +77,39 @@ aside{
     position:relative;
     transition:all 0.4s linear;
     display: none;
+    list-style: none;
     &.selected{
         display: block;
+    }
+}
+
+.project_item{
+    font-family: avenir;
+    margin: 4px;
+    padding: 6px;
+    border-bottom: 1px dashed #000;
+}
+
+.project_type{
+    border-radius: 3px;
+    padding: 0 3px;
+
+    &.driver{
+        background-color: #FFD54F;
+        color: #313131;
+    }
+
+    &.observer{
+        background-color: #E57373;
+        color: #EFEFEF;
+    }
+}
+
+.related_user{
+    float: right;
+    a{
+        text-decoration: none;
+        color: #000000;
     }
 }
 

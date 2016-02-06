@@ -375,32 +375,51 @@ aside, #app_container {
 aside {
   float: left;
   width: 20%; }
+  aside ol {
+    list-style: none; }
+    aside ol li {
+      margin: 6px 0; }
+      aside ol li a {
+        padding-left: 16px;
+        text-decoration: none;
+        color: #555858; }
+    aside ol li.selected a {
+      border-left: 4px solid #5C6BC0;
+      padding-left: 12px; }
 
 #app_container {
   width: 80%;
   float: right; }
 
 #tab_switcher {
-  border-radius: 8px;
-  width: 380px;
+  border-radius: 6px;
+  width: 362px;
   display: flex;
   justify-content: space-between;
-  background-color: #7b1fa3;
-  border: #7b1fa3 solid 1px;
   height: 1.4em;
-  padding: 4px 1px;
-  margin: 0 auto; }
+  margin: 0 auto;
+  border: 1px #5C6BC0 solid; }
   #tab_switcher .tab {
     width: 120px;
-    border-right: 2px solid #E6E6E6;
     margin: 0;
     line-height: 1.4em;
     font-family: 'avenir';
     text-align: center;
-    color: #E6E6E6;
-    cursor: pointer; }
+    color: #5C6BC0;
+    cursor: pointer;
+    border-right: 1px solid #5C6BC0;
+    border-left: 1px solid #5C6BC0; }
+    #tab_switcher .tab:first-child {
+      border-top-left-radius: 3px;
+      border-bottom-left-radius: 3px;
+      border: none; }
     #tab_switcher .tab:last-child {
-      border-right: none; }
+      border: none;
+      border-top-right-radius: 3px;
+      border-bottom-right-radius: 3px; }
+    #tab_switcher .tab.selected {
+      color: #F0F0F0;
+      background-color: #5C6BC0; }
 
 #projects_container {
   width: 60%;
@@ -411,9 +430,32 @@ aside {
   height: 100%;
   position: relative;
   transition: all 0.4s linear;
-  display: none; }
+  display: none;
+  list-style: none; }
   .project_list.selected {
     display: block; }
+
+.project_item {
+  font-family: avenir;
+  margin: 4px;
+  padding: 6px;
+  border-bottom: 1px dashed #000; }
+
+.project_type {
+  border-radius: 3px;
+  padding: 0 3px; }
+  .project_type.driver {
+    background-color: #FFD54F;
+    color: #313131; }
+  .project_type.observer {
+    background-color: #E57373;
+    color: #EFEFEF; }
+
+.related_user {
+  float: right; }
+  .related_user a {
+    text-decoration: none;
+    color: #000000; }
 
 #app_banner {
   background-color: #F0F0F0;
