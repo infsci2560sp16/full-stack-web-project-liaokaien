@@ -6,43 +6,58 @@
   <link href="stylesheets/css/base.css" rel="stylesheet"/>
 </head>
 <body>
-    <nav id="app_banner">
-    </nav>
+    <!--Banner-View goes here-->
+    <nav id="app_banner"></nav>
     <section id="app_container">
-        <div id="projects_container">
-        </div>
     </section>
-
+    <!-- AsideNavView goes here-->
     <aside>
+        <ol>
+            <li class="aside_nav_item selected">
+                <a href="/index.html">Dashboard</a>
+            </li>
+            <li class="aside_nav_item">
+                <a href="/create.html">Create New Project</a>
+            </li>
+            <li class="aside_nav_item">
+                <a href="/relations.html">Relations</a>
+            </li>
+        </ol>
     </aside>
-
+<!--********************************* Underscore Templates **********************************-->
     <script type="text/template" id="banner_template">
         <div id="site_logo">
             logo
         </div>
         <div id="profile">
-            profile
+            <div id="user_avatar"></div>
         </div>
         <div id="notification">
-            notification
+            <div id="btn_notification"></div>
+            <% if(notifications.length){ %>
+                <ul id="notifications_list">
+                    <% _.each(notifications, function(notification){ %>
+                    <li class="notification_item">
+                        <div class="notification_user">
+                            <%- notification.related_uname %>
+                        </div>
+                        <div class="notification_type">
+                            <%- notification.type %>
+                        </div>
+                    </li>
+                    <% }); %>
+                </ul>
+            <% } %>
         </div>
     </script>
 
-    <script id="dashboard_template">
-    </script>
-
-    <script id="aside_nav_template" type="text/template">
-        <ol>
-            <li class="aside_nav_item selected">
-                <a href="/index.html?u=<%= uid %>">Dashboard</a>
-            </li>
-            <li class="aside_nav_item">
-                <a href="/create.html?u=<%= uid %>">Create New Project</a>
-            </li>
-            <li class="aside_nav_item">
-                <a href="/relations.html?u=<%= uid %>">Relations</a>
-            </li>
-        </ol>
+    <script type="text/template" id="list_template">
+        <div id="tab_switcher">
+            <div class="tab">Recent</div>
+            <div class="tab">As Driver</div>
+            <div class="tab">As Observer</div>
+        </div>
+        <div id="projects_container"></div>
     </script>
 
     <script src="bundle/main.js" type="application/javascript"></script>

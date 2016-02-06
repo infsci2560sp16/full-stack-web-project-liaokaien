@@ -13292,14 +13292,26 @@ module.exports = Backbone.Collection.extend({
 });
 
 },{"../model/Project.js":7,"backbone":1}],6:[function(require,module,exports){
-(function() {
+var $ = require('jquery');
+var fetchUrl = 'http://www.liaokaien.com/api/code2gether/banner_data';
+var path = window.location.pathname.slice(1).split('.')[0];
+// Route url to view.
+
+function success(data){
+    new BannerView({
+        model: data
+    });
+}
+
+if(path === 'index'){
     var BannerView = require('./view/Banner-View.js');
     var DashboardView = require('./view/Dashboard-View.js');
-    new BannerView();
+    // Load user_data: notification_list...
+    $.getJSON(fetchUrl, success);
     new DashboardView();
-}());
+}
 
-},{"./view/Banner-View.js":10,"./view/Dashboard-View.js":11}],7:[function(require,module,exports){
+},{"./view/Banner-View.js":8,"./view/Dashboard-View.js":9,"jquery":3}],7:[function(require,module,exports){
 var Backbone = require('backbone');
 
 
@@ -13307,47 +13319,6 @@ module.exports = Backbone.Model.extend({
 });
 
 },{"backbone":1}],8:[function(require,module,exports){
-var $ = require('jquery');
-var _ = require('underscore');
-
-var getQueryParams = function(queryString) {
-    var query = (queryString || window.location.search).substring(1); // delete ?
-    if (!query) {
-        return false;
-    }
-    return _
-        .chain(query.split('&'))
-        .map(function(params) {
-            var p = params.split('=');
-            return [p[0], decodeURIComponent(p[1])];
-        })
-        .object()
-        .value();
-};
-
-module.exports = {
-    getQueryParams: getQueryParams
-};
-
-},{"jquery":3,"underscore":4}],9:[function(require,module,exports){
-var _ = require('underscore');
-var $ = require('jquery');
-var Backbone = require('backbone');
-Backbone.$ = $;
-
-module.exports = Backbone.View.extend({
-    el: 'aside',
-    template: _.template($('#aside_nav_template').html()),
-    initialize: function(){
-        this.render();
-    },
-
-    render: function(){
-        this.$el.append(this.template(this.model));
-    }
-});
-
-},{"backbone":1,"jquery":3,"underscore":4}],10:[function(require,module,exports){
 var _ = require('underscore');
 var $ = require('jquery');
 var Backbone = require('backbone');
@@ -13361,63 +13332,31 @@ module.exports = Backbone.View.extend({
     },
 
     render: function(){
-        this.$el.append(this.template());
+        console.log(this.model);
+        this.$el.append(this.template(this.model));
     }
 });
 
-},{"backbone":1,"jquery":3,"underscore":4}],11:[function(require,module,exports){
+},{"backbone":1,"jquery":3,"underscore":4}],9:[function(require,module,exports){
 var Backbone = require('backbone');
-var $ = require('jquery');
-var ListView = require('./List-View.js');
-var ProjectsListModel = require('../collection/ProjectsCollection.js');
-var AsideView = require('./AsideNav-View.js');
-var util = require('../util.js');
-
-var _userid = util.getQueryParams().u;
-
-function concatQuery(listType){
-    var userid = _userid;
-    fetchUrl= 'http://www.liaokaien.com/api/code2gether/projects';
-    fetchUrl += '/' + listType + '/' + userid ;
-}
+var ProjectListView = require('./ProjectLists-View.js');
 
 module.exports = Backbone.View.extend({
-    el: '#projects_container',
+    el: '#app_container',
     initialize: function(){
         this.render();
     },
 
     render: function(){
-        var asideNav = new AsideView({
-            model:{
-                uid : _userid
-            }
-        });
-
-        // Map list tab name to three ListView Backbone.View object
-        var lists = ['recent', 'observer', 'driver'].map(function(el){
-            var listview = new ListView({
-                className : 'project_list ' + el,
-                model: new ProjectsListModel()
-            });
-            return listview;
-        });
-
-        // Store a access to Dashboard View
-        var self = this;
-
-        // Append three ListView object to Dashboard
-        lists.forEach(function(ul){
-            self.$el.append(ul.$el);
-        });
+        var projectList = new ProjectListView();
+        this.$el.append(projectList.$el);
     }
 });
 
-},{"../collection/ProjectsCollection.js":5,"../util.js":8,"./AsideNav-View.js":9,"./List-View.js":12,"backbone":1,"jquery":3}],12:[function(require,module,exports){
+},{"./ProjectLists-View.js":12,"backbone":1}],10:[function(require,module,exports){
 var Backbone = require('backbone');
 var $ = require('jquery');
 var ProjectItemView = require('./ProjectItem-View.js');
-var util = require('../util.js');
 
 module.exports = Backbone.View.extend({
     tagName : 'ul',
@@ -13436,9 +13375,8 @@ module.exports = Backbone.View.extend({
     render: function(){
         var self = this,
             listType = this.className.split(' ')[1],
-            userid = util.getQueryParams().u,
             fetchUrl= 'http://www.liaokaien.com/api/code2gether/projects';
-        fetchUrl += '/' + listType + '/' + userid;
+        fetchUrl += '/' + listType;
         this.model.url = fetchUrl;
         $.getJSON(fetchUrl, function(data){
             self.model.reset(data);
@@ -13447,7 +13385,7 @@ module.exports = Backbone.View.extend({
     }
 });
 
-},{"../util.js":8,"./ProjectItem-View.js":13,"backbone":1,"jquery":3}],13:[function(require,module,exports){
+},{"./ProjectItem-View.js":11,"backbone":1,"jquery":3}],11:[function(require,module,exports){
 var Backbone = require('backbone');
 
 module.exports = Backbone.View.extend({
@@ -13462,4 +13400,40 @@ module.exports = Backbone.View.extend({
 
 });
 
-},{"backbone":1}]},{},[6]);
+},{"backbone":1}],12:[function(require,module,exports){
+var Backbone = require('backbone');
+var ListView = require('./List-View.js');
+var ProjectsListModel = require('../collection/ProjectsCollection.js');
+var _ = require('underscore');
+var $ = require('jquery');
+
+module.exports = Backbone.View.extend({
+    tagName : 'section',
+    id: 'projects_list_container',
+    template: _.template($('#list_template').html()),
+    initialize : function(){
+        this.render();
+
+    },
+    render: function(){
+        // Render the basic structure
+        this.$el.append(this.template());
+
+        var container = this.$el.find("#projects_container");
+
+        // Map list tab name to three ListView Backbone.View object
+        var lists = ['recent', 'observer', 'driver'].map(function(el){
+            var listview = new ListView({
+                className : 'project_list ' + el,
+                model: new ProjectsListModel()
+            });
+            return listview;
+        });
+        // Append three ListView object to #projects_container
+        lists.forEach(function(ul){
+            container.append(ul.$el);
+        });
+    }
+});
+
+},{"../collection/ProjectsCollection.js":5,"./List-View.js":10,"backbone":1,"jquery":3,"underscore":4}]},{},[6]);

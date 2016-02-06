@@ -1,7 +1,6 @@
 var Backbone = require('backbone');
 var $ = require('jquery');
 var ProjectItemView = require('./ProjectItem-View.js');
-var util = require('../util.js');
 
 module.exports = Backbone.View.extend({
     tagName : 'ul',
@@ -20,9 +19,8 @@ module.exports = Backbone.View.extend({
     render: function(){
         var self = this,
             listType = this.className.split(' ')[1],
-            userid = util.getQueryParams().u,
             fetchUrl= 'http://www.liaokaien.com/api/code2gether/projects';
-        fetchUrl += '/' + listType + '/' + userid;
+        fetchUrl += '/' + listType;
         this.model.url = fetchUrl;
         $.getJSON(fetchUrl, function(data){
             self.model.reset(data);

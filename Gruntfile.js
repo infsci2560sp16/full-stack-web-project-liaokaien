@@ -38,8 +38,8 @@ module.exports = function(grunt) {
                 tasks: ['jshint']
             },
             browserify: {
-                files: ['<%= srcFolder %>/public/js/**/*.js', '!<%= srcFolder %>/public/bundle/*.js'],
-                tasks: ['browserify']
+                files: ['<%= srcFolder %>/public/js/**/*.js'],
+                tasks: ['browserify'/* 'concat', 'uglify'*/]
             },
             sass: {
                 files: '<%= srcFolder%>/public/stylesheets/scss/**/*.scss',
@@ -52,8 +52,8 @@ module.exports = function(grunt) {
                 separator: ';'
             },
             dist: {
-                src: ['<%= srcFolder %>/public/js/**/*.js'],
-                dest: '<%= distFolder %>/public/js/<%= pkg.name %>.js'
+                src: ['<%= srcFolder %>/public/bundle/*.js'],
+                dest: '<%= srcFolder %>/public/bundle/<%= pkg.name %>.js'
             }
         },
         uglify: {
@@ -62,7 +62,7 @@ module.exports = function(grunt) {
             },
             dist: {
                 files: {
-                    '<%= distFolder %>/public/js/<%= pkg.name %>.min.js': ['<%= concat.dist.dest %>']
+                    '<%= srcFolder %>/public/compressed/<%= pkg.name %>.min.js': ['<%= concat.dist.dest %>']
                 }
             }
         },
@@ -97,7 +97,7 @@ module.exports = function(grunt) {
                     expand: true,
                     cwd: '<%= srcFolder %>/public/js/',
                     src: ['*.js', '!/view/', '!/model/', '!/router', '!util.js'],
-                    dest: '<%= srcFolder %>/public/bundle/main.js'
+                    dest: '<%= srcFolder %>/public/bundle/'
                 }]
             }
         }
@@ -120,8 +120,8 @@ module.exports = function(grunt) {
     grunt.registerTask('test', ['validation', 'jshint']);
 
     // the default task can be run just by typing "grunt" on the command line
-    grunt.registerTask('default', ['validation', 'jshint', /*, 'concat', 'uglify', 'cssmin'*/ ]);
+    grunt.registerTask('default', ['validation', 'jshint' /*, 'concat', 'uglify', 'cssmin'*/ ]);
 
     // local build process: bundle modules and preprocess sass files.
-    grunt.registerTask('build', ['browserify', 'sass', 'watch']);
+    grunt.registerTask('build', ['browserify', /*'concat', 'uglify',*/ 'sass', 'watch']);
 };
