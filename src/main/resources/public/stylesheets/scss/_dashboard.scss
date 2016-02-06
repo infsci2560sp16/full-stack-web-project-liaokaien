@@ -1,0 +1,59 @@
+aside, #app_container {
+    margin-top: 40px;
+}
+aside{
+    float: left;
+    width: 20%;
+}
+
+#app_container{
+    width: 80%;
+    float: right;
+}
+
+#tab_switcher{
+    $tab_switcher_color: #7b1fa3;
+    border-radius: 8px;
+    width: 380px;
+    display: flex;
+    justify-content: space-between;
+    background-color: $tab_switcher_color;
+    border: $tab_switcher_color solid 1px;
+    height: 1.4em;
+    padding: 4px 1px;
+    margin: 0 auto;
+    .tab{
+        width: 120px;
+        border-right: 2px solid #E6E6E6;
+        margin: 0;
+        line-height: 1.4em;
+        font-family: 'avenir';
+        text-align: center;
+        color: #E6E6E6;
+        cursor: pointer;
+        &:last-child{
+            border-right: none;
+        }
+    }
+    
+}
+
+#projects_container{
+    width: 60%;
+    margin:0 auto;
+
+}
+
+.project_list{
+    width:100%;
+    height:100%;
+    position:relative;
+    transition:all 0.4s linear;
+    display: none;
+    &.selected{
+        display: block;
+    }
+}
+
+#tab_switcher{
+}

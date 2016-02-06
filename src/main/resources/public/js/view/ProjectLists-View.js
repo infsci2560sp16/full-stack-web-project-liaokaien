@@ -4,10 +4,14 @@ var ProjectsListModel = require('../collection/ProjectsCollection.js');
 var _ = require('underscore');
 var $ = require('jquery');
 
+var tabList = ['recent', 'driver', 'observer'];
 module.exports = Backbone.View.extend({
     tagName : 'section',
     id: 'projects_list_container',
     template: _.template($('#list_template').html()),
+    events: {
+        "click #tab_switcher .tab" : "switchTab"
+    },
     initialize : function(){
         this.render();
 
@@ -19,7 +23,7 @@ module.exports = Backbone.View.extend({
         var container = this.$el.find("#projects_container");
 
         // Map list tab name to three ListView Backbone.View object
-        var lists = ['recent', 'observer', 'driver'].map(function(el){
+        var lists = tabList.map(function(el){
             var listview = new ListView({
                 className : 'project_list ' + el,
                 model: new ProjectsListModel()
@@ -30,5 +34,24 @@ module.exports = Backbone.View.extend({
         lists.forEach(function(ul){
             container.append(ul.$el);
         });
+    },
+
+    switchTab: function(event){
+        var displayTab = event.currentTarget.classList[1],
+            hiddenTab  = tabList.filter(function(el){
+            return el !== displayTab;
+        });
+        var self = this;
+        _.chain(_.union([displayTab], hiddenTab))
+            .zip([true, false, false])
+            .each(function(operation){
+                var selector = ['.project_list', '.tab'].map(function(el){
+                    return el + '.' + operation[0];
+                }).join(',');
+                var element = self.$el.find(selector);
+                element.removeClass('selected');
+                if(operation[1]) element.addClass('selected');
+            });
     }
+
 });

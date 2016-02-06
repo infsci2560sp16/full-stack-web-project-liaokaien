@@ -6,6 +6,11 @@ Backbone.$ = $;
 module.exports = Backbone.View.extend({
     el: '#app_banner',
     template: _.template($('#banner_template').html()),
+    events: {
+        // "event selector" : "handler" 
+        "mouseenter #btn_notification":    "showNotificationBox",
+        "mouseleave #notification":   "hideNotificationBox"
+    },
     initialize: function(){
         this.render();
     },
@@ -13,5 +18,12 @@ module.exports = Backbone.View.extend({
     render: function(){
         console.log(this.model);
         this.$el.append(this.template(this.model));
+    },
+    showNotificationBox: function(){
+        console.log('hah');
+        this.$el.find('ul').show();
+    },
+    hideNotificationBox: function(){
+        this.$el.find('ul').hide();
     }
 });

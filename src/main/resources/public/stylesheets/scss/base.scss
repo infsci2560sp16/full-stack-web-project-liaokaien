@@ -1,5 +1,6 @@
-$color_base : #F0F0F0;
+@import 'normalize';
+@import 'svg_icon';
+@import 'dashboard';
+@import 'banner';
+@import 'util';
 
-body{
-    background-color : $color_base;
-}

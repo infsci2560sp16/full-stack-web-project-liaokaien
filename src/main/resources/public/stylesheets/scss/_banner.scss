@@ -1,0 +1,67 @@
+$color_base : #F0F0F0;
+@import 'util';
+
+
+$banner_height: 3em;
+#app_banner{
+    $color_banner : #F0F0F0;
+    @include clearfix();
+    
+    background-color: $color_banner;
+    box-shadow: 0px 2px 1px 1px #E6E6E6;
+    height: $banner_height;
+    top: 0;
+    left: 0;
+    
+    div{
+        display: inline-block;
+    }
+}
+
+
+#site_logo{
+    background: url(/images/logo.png) center center/ 100% no-repeat;
+    text-indent: 9999px;
+    width:128px;
+    height: $banner_height;
+    margin-left: 84px;
+    
+}
+
+#user_avatar{
+    width: 64px;
+    height: 3em;
+    margin-right: 48px;
+    float: right;
+}
+
+$notification_icon_width: $banner_height;
+$notification_list_width: 14em;
+#notification{
+    float:right;
+    margin-right: $notification_icon_width;
+    height: $banner_height;
+    position:relative;
+    cursor: pointer;
+}
+
+#btn_notification{
+    position: relative;
+    top: ($banner_height - 2)/2;;
+    height: 2em;
+    
+}
+
+#notifications_list{
+    display: none;
+    position: absolute;
+    left: -($notification_list_width - $notification_icon_width)/2;
+    width: $notification_list_width;
+    background-color: $color_base;
+    list-style: none;
+    box-shadow: 0px 2px 1px 1px #E6E6E6;
+    border-radius: 6px;
+    padding: 4px 6px;
+    top: 28px;
+}
+
