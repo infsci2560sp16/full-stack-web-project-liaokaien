@@ -1,6 +1,7 @@
 var Backbone = require('backbone');
 var $ = require('jquery');
 var ProjectItemView = require('./ProjectItem-View.js');
+var util = require('../util.js');
 
 module.exports = Backbone.View.extend({
     tagName : 'ul',
@@ -17,9 +18,13 @@ module.exports = Backbone.View.extend({
         });
     },
     render: function(){
-        var self = this,
+        var origin = this.attributes['data-origin'],
+            self = this,
             listType = this.className.split(' ')[1],
-            fetchUrl= 'http://www.liaokaien.com/api/code2gether/projects';
+            uid = util.getQueryParams()['u'],
+            fetchUrl = origin === 'dashboard'
+                ? 'http://www.liaokaien.com/api/code2gether/user/projects'
+                : 'http://www.liaokaien.com/api/code2gether/user/'+ uid + '/projects';
         fetchUrl += '/' + listType;
         this.model.url = fetchUrl;
         $.getJSON(fetchUrl, function(data){

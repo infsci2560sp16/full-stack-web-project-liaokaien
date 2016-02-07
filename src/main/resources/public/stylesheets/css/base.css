@@ -475,7 +475,7 @@ aside {
 
 #site_logo {
   background: url(/images/logo.png) center center/100% no-repeat;
-  text-indent: 9999px;
+  text-indent: -9999px;
   width: 128px;
   height: 3em;
   margin-left: 84px; }
@@ -505,9 +505,29 @@ aside {
   width: 14em;
   background-color: #F0F0F0;
   list-style: none;
-  box-shadow: 0px 2px 1px 1px #E6E6E6;
+  box-shadow: 0 1px 1px 1px #E6E6E6;
   border-radius: 6px;
   padding: 4px 6px;
-  top: 28px; }
+  top: 26px;
+  transition: top 4s linear; }
+  #notifications_list.show {
+    display: block;
+    top: 34px; }
+
+#user_profile {
+  margin-top: 40px;
+  width: 20%;
+  position: relative;
+  left: 48px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center; }
+
+.user_profile_name {
+  font-size: 1.6rem;
+  text-align: center;
+  padding: 5px 0 16px 0;
+  border-bottom: 2px solid #F3F3F3; }
 
 /*# sourceMappingURL=base.css.map */

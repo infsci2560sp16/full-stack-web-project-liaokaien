@@ -1,0 +1,17 @@
+#user_profile{
+    margin-top:40px;
+    width: 20%;
+    position:relative;
+    left: 48px;
+    display:flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.user_profile_name{
+    font-size: 1.6rem;
+    text-align:center;
+    padding: 5px 0 16px 0;
+    border-bottom: 2px solid #F3F3F3;
+}

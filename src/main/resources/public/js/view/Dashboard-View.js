@@ -8,7 +8,7 @@ module.exports = Backbone.View.extend({
     },
 
     render: function(){
-        var projectList = new ProjectListView();
+        var projectList = new ProjectListView({model:this.model});
         this.$el.append(projectList.$el);
     }
 });

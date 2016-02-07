@@ -19,9 +19,9 @@ module.exports = Backbone.View.extend({
         this.$el.append(this.template(this.model));
     },
     showNotificationBox: function(){
-        this.$el.find('ul').show();
+        this.$el.find('ul').addClass('show');
     },
     hideNotificationBox: function(){
-        this.$el.find('ul').hide();
+        this.$el.find('ul').removeClass('show');
     }
 });

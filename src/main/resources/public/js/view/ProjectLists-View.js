@@ -22,10 +22,14 @@ module.exports = Backbone.View.extend({
 
         var container = this.$el.find("#projects_container");
 
+        var $model = this.model;
         // Map list tab name to three ListView Backbone.View object
         var lists = tabList.map(function(el){
             var listview = new ListView({
                 className : 'project_list ' + el,
+                attributes: {
+                    "data-origin" : $model['dataOrigin']
+                },
                 model: new ProjectsListModel()
             });
             return listview;

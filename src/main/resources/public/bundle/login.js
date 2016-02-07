@@ -13282,269 +13282,53 @@ return jQuery;
 },{}],4:[function(require,module,exports){
 arguments[4][2][0].apply(exports,arguments)
 },{"dup":2}],5:[function(require,module,exports){
-var Backbone = require('backbone');
-var Project = require('../model/Project.js');
-
-module.exports = Backbone.Collection.extend({
-    modle: Project,
-    initialize: function(){
-    }
-});
-
-},{"../model/Project.js":7,"backbone":1}],6:[function(require,module,exports){
 var $ = require('jquery');
-var fetchUrl = 'http://www.liaokaien.com/api/code2gether/banner_data';
-var path = window.location.pathname.slice(1).split('.')[0];
-var BannerView = require('./view/Banner-View.js');
-var DashboardView = require('./view/Dashboard-View.js');
+var formView = require('./view/Form-View.js');
 
-function renderBanner(data){
-    new BannerView({
-        model: data
-    });
-}
-
-// load notifications
-$.getJSON(fetchUrl, renderBanner);
-
-//Route url to view.
-if(path === 'index'){
-    //Render dashboard
-    new DashboardView(
-        {
-            model: {
-                dataOrigin: 'dashboard'
-            }
-        });
-    //Auto select 'Recent' Tab
-    $('.tab.recent').click();
-}
-
-//Route url to view.
-if(path === 'user_profile'){
-    var ProfileView = require('./view/UserProfile-View.js');
-    new ProfileView();
-    new DashboardView(
-        {
-            model: {
-                dataOrigin: 'user_profile'
-            }
-        });
-    //Auto select 'Recent' Tab
-    $('.tab.recent').click();
-}
-
-},{"./view/Banner-View.js":9,"./view/Dashboard-View.js":10,"./view/UserProfile-View.js":14,"jquery":3}],7:[function(require,module,exports){
-var Backbone = require('backbone');
+new formView();
 
 
-module.exports = Backbone.Model.extend({
-});
-
-},{"backbone":1}],8:[function(require,module,exports){
-var $ = require('jquery');
-var _ = require('underscore');
-
-var getQueryParams = function(queryString) {
-    var query = (queryString || window.location.search).substring(1); // delete ?
-    if (!query) {
-        return false;
-    }
-    return _
-        .chain(query.split('&'))
-        .map(function(params) {
-            var p = params.split('=');
-            return [p[0], decodeURIComponent(p[1])];
-        })
-        .object()
-        .value();
-};
-
-module.exports = {
-    getQueryParams: getQueryParams
-};
-
-},{"jquery":3,"underscore":4}],9:[function(require,module,exports){
-var _ = require('underscore');
-var $ = require('jquery');
-var Backbone = require('backbone');
-Backbone.$ = $;
-
-module.exports = Backbone.View.extend({
-    el: '#app_banner',
-    template: _.template($('#banner_template').html()),
-    events: {
-        // "event selector" : "handler" 
-        "mouseenter #btn_notification":    "showNotificationBox",
-        "mouseleave #notification":   "hideNotificationBox"
-    },
-    initialize: function(){
-        this.render();
-    },
-
-    render: function(){
-        this.$el.append(this.template(this.model));
-    },
-    showNotificationBox: function(){
-        this.$el.find('ul').addClass('show');
-    },
-    hideNotificationBox: function(){
-        this.$el.find('ul').removeClass('show');
-    }
-});
-
-},{"backbone":1,"jquery":3,"underscore":4}],10:[function(require,module,exports){
-var Backbone = require('backbone');
-var ProjectListView = require('./ProjectLists-View.js');
-
-module.exports = Backbone.View.extend({
-    el: '#app_container',
-    initialize: function(){
-        this.render();
-    },
-
-    render: function(){
-        var projectList = new ProjectListView({model:this.model});
-        this.$el.append(projectList.$el);
-    }
-});
-
-},{"./ProjectLists-View.js":13,"backbone":1}],11:[function(require,module,exports){
-var Backbone = require('backbone');
-var $ = require('jquery');
-var ProjectItemView = require('./ProjectItem-View.js');
-var util = require('../util.js');
-
-module.exports = Backbone.View.extend({
-    tagName : 'ul',
-    initialize: function(){
-        this.render();
-    },
-    addProjectItems: function(){
-        var self = this;
-        this.model.models.forEach(function(model){
-            var item = new ProjectItemView({
-                model: model
-            });
-            self.$el.append(item.$el);
-        });
-    },
-    render: function(){
-        var origin = this.attributes['data-origin'],
-            self = this,
-            listType = this.className.split(' ')[1],
-            uid = util.getQueryParams()['u'],
-            fetchUrl = origin === 'dashboard'
-                ? 'http://www.liaokaien.com/api/code2gether/user/projects'
-                : 'http://www.liaokaien.com/api/code2gether/user/'+ uid + '/projects';
-        fetchUrl += '/' + listType;
-        this.model.url = fetchUrl;
-        $.getJSON(fetchUrl, function(data){
-            self.model.reset(data);
-            self.addProjectItems();
-        });
-    }
-});
-
-},{"../util.js":8,"./ProjectItem-View.js":12,"backbone":1,"jquery":3}],12:[function(require,module,exports){
+},{"./view/Form-View.js":6,"jquery":3}],6:[function(require,module,exports){
 var Backbone = require('backbone');
 var _ = require('underscore');
 var $ = require('jquery');
 
+var fetchUrl = "http://www.liaokaien.com/api/code2gether/login";
 module.exports = Backbone.View.extend({
-    tagName: 'li',
-    template: _.template($('#list_item_template').html()),
-    className: 'project_item',
-    initialize:function(){
-        this.render();
-    },
-    render: function(){
-        this.$el.html(this.template(this.model.attributes));
-    }
-});
-
-},{"backbone":1,"jquery":3,"underscore":4}],13:[function(require,module,exports){
-var Backbone = require('backbone');
-var ListView = require('./List-View.js');
-var ProjectsListModel = require('../collection/ProjectsCollection.js');
-var _ = require('underscore');
-var $ = require('jquery');
-
-var tabList = ['recent', 'driver', 'observer'];
-module.exports = Backbone.View.extend({
-    tagName : 'section',
-    id: 'projects_list_container',
-    template: _.template($('#list_template').html()),
-    events: {
-        "click #tab_switcher .tab" : "switchTab"
+    el: 'section.form_container',
+    template: _.template($('#form_template').html()),
+    events:{
+        "click #btn_submit" : "login"
     },
     initialize : function(){
         this.render();
-
     },
     render: function(){
-        // Render the basic structure
         this.$el.append(this.template());
+    },
 
-        var container = this.$el.find("#projects_container");
+    login: function(){
+        var password = this.$el.find('#form_password').val(),
+            uname    = this.$el.find('#form_password').val(),
+            token = btoa(password + ':' + uname),
+            self = this;
 
-        var $model = this.model;
-        // Map list tab name to three ListView Backbone.View object
-        var lists = tabList.map(function(el){
-            var listview = new ListView({
-                className : 'project_list ' + el,
-                attributes: {
-                    "data-origin" : $model['dataOrigin']
-                },
-                model: new ProjectsListModel()
-            });
-            return listview;
-        });
-        // Append three ListView object to #projects_container
-        lists.forEach(function(ul){
-            container.append(ul.$el);
+        $.post(fetchUrl, {token:token}, function(res){
+            if(res.success && res.token === token){
+                window.location = '/index';
+            } else{
+                self.pop(res.error);
+            }
         });
     },
 
-    switchTab: function(event){
-        var displayTab = event.currentTarget.classList[1],
-            hiddenTab  = tabList.filter(function(el){
-            return el !== displayTab;
-        });
-        var self = this;
-        _.chain(_.union([displayTab], hiddenTab))
-            .zip([true, false, false])
-            .each(function(operation){
-                var selector = ['.project_list', '.tab'].map(function(el){
-                    return el + '.' + operation[0];
-                }).join(',');
-                var element = self.$el.find(selector);
-                element.removeClass('selected');
-                if(operation[1]) element.addClass('selected');
-            });
+    pop: function(error){
+        // Indicate the error message
     }
+
 
 });
 
-},{"../collection/ProjectsCollection.js":5,"./List-View.js":11,"backbone":1,"jquery":3,"underscore":4}],14:[function(require,module,exports){
-var Backbone = require('backbone');
-var _ = require('underscore');
-var $ = require('jquery');
-var util = require('../util.js');
-var uid = util.getQueryParams()['uid'];
-module.exports = Backbone.View.extend({
-    el: '#user_profile',
-    template: _.template($('#profile_template').html()),
-    initialize: function(){
-        this.render();
-    },
-    render: function(){
-        var fetchUrl = 'http://www.liaokaien.com/api/code2gether/user/profile/' + uid;
-        var self = this;
-        $.getJSON(fetchUrl, function(data){
-            self.$el.append(self.template(data));
-        });
-    }
-});
 
-},{"../util.js":8,"backbone":1,"jquery":3,"underscore":4}]},{},[6]);
+
+},{"backbone":1,"jquery":3,"underscore":4}]},{},[5]);
