@@ -2,15 +2,18 @@
 <html>
 <head lang="en">
   <meta charset="UTF-8">
-  <title>Dashboard</title>
+  <title>Create new project</title>
   <link href="stylesheets/css/base.css" rel="stylesheet"/>
 </head>
 <body>
-    <!--Banner-View goes here-->
     <nav id="app_banner"></nav>
-    <section id="app_container"></section>
-    <aside id="user_profile"> </aside>
-<!--************ Underscore Templates ****************-->
+    <section id="site_desc">
+        <h1>Create a new project</h1>
+        <p>Then invite your friend to observe.</p>
+    </section>
+
+    <section class="form_container tall"></section>
+    <!-- Underscore Templates go here -->
     <script type="text/template" id="banner_template">
         <div id="site_logo">
             Logo
@@ -45,36 +48,30 @@
             <input name="user_search" type="search" value="" placeholder="search user"/>
         </div>
     </script>
-
-    <script type="text/template" id="list_template">
-        <div id="tab_switcher">
-            <div class="tab recent">Recent</div>
-            <div class="tab driver">As Driver</div>
-            <div class="tab observer">As Observer</div>
-        </div>
-        <div id="projects_container"></div>
-
-        <!-- DONEs: Add a 'Create project' button -->
-        <div id="btn_new_project">
-            <a href="/new_project">Create A New Project</a>
-        </div>
+    <script type="text/template" id="form_template">
+        <form action="">
+            <div class="form_row">
+                <label for="form_project_name">Project name</label>
+                <input id="form_project_name" name="pname" type="text" value=""/>
+            </div>
+            <div class="dropdown_wrap">
+                <label class="align_center" for="invite_dropdown">Invite one of your friend.</label>
+                <section id="invite_dropdown" class="align_center custom-dropdown custom-dropdown--white">
+                    <select>
+                        <% _.each(friends, function(friend){ %>
+                        <option value="<%- friend.uid %>"><%- friend.uname %></option>
+                        <% }); %>
+                    </select>
+                </section>
+            </div>
+            <div class="align_center btn_group">
+                <input name="login" id="btn_submit"   type="button" value="Create"/>
+                <input name="cancel" id="btn_cancel"  type="button" value="Cancel"/>
+            </div>
+        </form>
     </script>
-
-    <script type="text/template" id="profile_template">
-        <div class="user_profile_avatar"></div>
-        <div class="user_profile_name">
-            <%- uname %>
-        </div>
+    <script>
     </script>
-
-    <script type="text/template" id="list_item_template">
-        <span class="project_name"><%- name %></span>
-        <span class="project_type <%- type %>"><%- type %></span>
-        <span class="related_user">
-            <a href="/user_profile?uid=<%- related_uid %>"><%- related_uname %></a>
-        </span>
-    </script>
-
-    <script src="bundle/main.js" type="application/javascript"></script>
+    <script src="bundle/new_project.js" type="application/javascript"></script>
 </body>
 </html>

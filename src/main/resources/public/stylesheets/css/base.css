@@ -369,27 +369,10 @@ th {
   stroke: #31ACE6;
   stroke-width: 1; }
 
-aside, #app_container {
-  margin-top: 40px; }
-
-aside {
-  float: left;
-  width: 20%; }
-  aside ol {
-    list-style: none; }
-    aside ol li {
-      margin: 6px 0; }
-      aside ol li a {
-        padding-left: 16px;
-        text-decoration: none;
-        color: #555858; }
-    aside ol li.selected a {
-      border-left: 4px solid #5C6BC0;
-      padding-left: 12px; }
-
 #app_container {
   width: 80%;
-  float: right; }
+  float: right;
+  margin: 40px 0; }
 
 #tab_switcher {
   border-radius: 6px;
@@ -433,7 +416,8 @@ aside {
   display: none;
   list-style: none; }
   .project_list.selected {
-    display: block; }
+    display: block;
+    padding: 24px 0 0 0; }
 
 .project_item {
   font-family: avenir;
@@ -456,6 +440,22 @@ aside {
   .related_user a {
     text-decoration: none;
     color: #000000; }
+
+#btn_new_project {
+  width: 60%;
+  margin: 0 auto;
+  border-radius: 6px;
+  border: 2px solid #5C6BC0;
+  line-height: 2em;
+  text-align: center;
+  transition: all 0.2s linear; }
+  #btn_new_project a {
+    text-decoration: none;
+    color: #5C6BC0; }
+  #btn_new_project:hover {
+    background-color: #5C6BC0; }
+    #btn_new_project:hover a {
+      color: #ffffff; }
 
 #app_banner {
   background-color: #F0F0F0;
@@ -480,23 +480,41 @@ aside {
   height: 3em;
   margin-left: 84px; }
 
-#user_avatar {
-  width: 64px;
-  height: 3em;
-  margin-right: 48px;
-  float: right; }
-
-#notification {
+.banner_element {
   float: right;
-  margin-right: 3em;
   height: 3em;
   position: relative;
+  right: 80px;
+  margin-right: 24px;
   cursor: pointer; }
+
+#search_user {
+  width: 180px;
+  height: 2em;
+  position: relative;
+  top: 0.5em; }
+  #search_user input[type='search'] {
+    line-height: 1.5em;
+    height: 1.5em;
+    font-family: 'avenir';
+    text-indent: 0.5em;
+    color: #5C6BC0; }
+
+#user_avatar {
+  width: 2em;
+  height: 2em;
+  position: relative;
+  top: 0.5em; }
 
 #btn_notification {
   position: relative;
   top: 0.5em;
   height: 2em; }
+
+#sign_out > svg {
+  position: relative;
+  height: 1.5rem;
+  top: 0.75em; }
 
 #notifications_list {
   display: none;
@@ -529,5 +547,143 @@ aside {
   text-align: center;
   padding: 5px 0 16px 0;
   border-bottom: 2px solid #F3F3F3; }
+
+#site_desc {
+  font-family: 'avenir';
+  margin-left: 68px; }
+  #site_desc h1 {
+    font-style: italic; }
+  #site_desc p {
+    margin-left: 36px; }
+
+.form_container.tall form {
+  height: 260px; }
+
+.form_container {
+  margin-top: 88px;
+  font-family: 'avenir'; }
+  .form_container form {
+    height: 220px;
+    width: 340px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: space-between; }
+
+.form_row, .dropdown_wrap {
+  display: flex;
+  width: 100%;
+  justify-content: space-between; }
+
+.form_row label {
+  margin-right: 24px;
+  transform: translateY(0.5em); }
+.form_row input:-webkit-autofill {
+  -webkit-box-shadow: 0 0 0px 1000px white inset; }
+.form_row input[type='password'], .form_row input[type='text'] {
+  background: none;
+  border: none;
+  border-bottom: 2px solid #E57373;
+  width: 50%; }
+  .form_row input[type='password']:focus, .form_row input[type='text']:focus {
+    outline: none; }
+
+.btn_group {
+  width: 100%;
+  display: flex;
+  justify-content: space-between; }
+
+.btn_group > input[type='button'] {
+  width: 40%;
+  border: none;
+  padding: 7px 0;
+  border-radius: 3px;
+  color: #FDFDFD; }
+
+#btn_submit {
+  background-color: #A9CA85; }
+
+#btn_cancel {
+  background-color: #E57373; }
+
+#sign_up_tip a {
+  color: #26A69A;
+  font-family: 'avenir';
+  text-decoration: none; }
+#sign_up_tip a:hover, #sign_up_tip a:active {
+  color: #00897B;
+  text-decoration: underline; }
+
+.error_msg {
+  color: red;
+  height: 1em;
+  text-align: center; }
+
+.dropdown_wrap {
+  margin-top: 48px; }
+
+/* Inspired by http://red-team-design.com/making-html-dropdowns-not-suck/ */
+.custom-dropdown {
+  position: relative;
+  display: inline-block;
+  vertical-align: middle;
+  width: 50%; }
+
+.custom-dropdown select {
+  font-size: inherit;
+  padding: .5em;
+  margin: 0;
+  width: 100%;
+  padding-right: 2.5em;
+  /* accommodate with the pseudo elements for the dropdown arrow */
+  border: 0;
+  border-radius: 3px;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none; }
+  .custom-dropdown select:focus {
+    outline: none; }
+
+.custom-dropdown--white select {
+  background-color: #7986CB;
+  color: #EEEEEE; }
+
+.custom-dropdown::before,
+.custom-dropdown::after {
+  content: "";
+  position: absolute;
+  pointer-events: none; }
+
+.custom-dropdown::after {
+  /*  Custom dropdown arrow */
+  content: "\25BC";
+  height: 1em;
+  font-size: .625em;
+  line-height: 1;
+  right: 1.2em;
+  top: 50%;
+  margin-top: -.5em; }
+
+.custom-dropdown::before {
+  /*  Custom dropdown arrow cover */
+  width: 2em;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  border-radius: 0 3px 3px 0; }
+
+.custom-dropdown select[disabled] {
+  color: rgba(0, 0, 0, 0.3); }
+
+.custom-dropdown--white::before {
+  background-color: #3949AB;
+  border-left: 1px solid rgba(0, 0, 0, 0.1); }
+
+.custom-dropdown--white::after {
+  color: #EEEEEE; }
+
+.align_center {
+  align-self: center; }
 
 /*# sourceMappingURL=base.css.map */

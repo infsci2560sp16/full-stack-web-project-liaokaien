@@ -2,15 +2,30 @@
 <html>
 <head lang="en">
   <meta charset="UTF-8">
-  <title>Dashboard</title>
+  <title>Setting</title>
   <link href="stylesheets/css/base.css" rel="stylesheet"/>
 </head>
 <body>
-    <!--Banner-View goes here-->
-    <nav id="app_banner"></nav>
-    <section id="app_container"></section>
-    <aside id="user_profile"> </aside>
-<!--************ Underscore Templates ****************-->
+    <!--  Underscore templates go here -->
+    <script type="text/template" id="form_template">
+        <form action="">
+            <div class="form_row">
+                <label for="form_uname">Username</label>
+                <input id="form_uname" name="uname" type="text" value=""/>
+            </div>
+            <div class="form_row">
+                <label for="form_password">Password</label>
+                <input id="form_password" name="password" type="password" value=""/>
+            </div>
+            <div class="form_row">
+                <label for="form_confirm_password">Confirm Password</label>
+                <input id="form_confirm_password" name="password" type="password" value=""/>
+            </div>
+            <p class="error_msg align_center"></p>
+            <input name="login" id="btn_submit" class="align_center" type="button" value="Sign up"/>
+        </form>
+    </script>
+
     <script type="text/template" id="banner_template">
         <div id="site_logo">
             Logo
@@ -45,36 +60,6 @@
             <input name="user_search" type="search" value="" placeholder="search user"/>
         </div>
     </script>
-
-    <script type="text/template" id="list_template">
-        <div id="tab_switcher">
-            <div class="tab recent">Recent</div>
-            <div class="tab driver">As Driver</div>
-            <div class="tab observer">As Observer</div>
-        </div>
-        <div id="projects_container"></div>
-
-        <!-- DONEs: Add a 'Create project' button -->
-        <div id="btn_new_project">
-            <a href="/new_project">Create A New Project</a>
-        </div>
-    </script>
-
-    <script type="text/template" id="profile_template">
-        <div class="user_profile_avatar"></div>
-        <div class="user_profile_name">
-            <%- uname %>
-        </div>
-    </script>
-
-    <script type="text/template" id="list_item_template">
-        <span class="project_name"><%- name %></span>
-        <span class="project_type <%- type %>"><%- type %></span>
-        <span class="related_user">
-            <a href="/user_profile?uid=<%- related_uid %>"><%- related_uname %></a>
-        </span>
-    </script>
-
-    <script src="bundle/main.js" type="application/javascript"></script>
+    <script src="bundle/setting.js" type="application/javascript"></script>
 </body>
 </html>

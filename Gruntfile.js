@@ -96,7 +96,7 @@ module.exports = function(grunt) {
                 files: [{
                     expand: true,
                     cwd: '<%= srcFolder %>/public/js/',
-                    src: ['*.js', '!/view/', '!/model/', '!/router', '!util.js'],
+                    src: ['*.js', '!/view/', '!/model/', '!/router', '!util.js', '!config.js'],
                     dest: '<%= srcFolder %>/public/bundle/'
                 }]
             }

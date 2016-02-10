@@ -2,12 +2,15 @@ var Backbone = require('backbone');
 var _ = require('underscore');
 var $ = require('jquery');
 
-var fetchUrl = "http://www.liaokaien.com/api/code2gether/login";
+var config = require('../config.js');
+var baseUrl = config.baseUrl;
+var fetchUrl = baseUrl + "/login";
 module.exports = Backbone.View.extend({
     el: 'section.form_container',
     template: _.template($('#form_template').html()),
     events:{
-        "click #btn_submit" : "login"
+        "click #btn_submit" : "login",
+        "click #btn_cancel" : "cancel"
     },
     initialize : function(){
         this.render();
@@ -21,7 +24,15 @@ module.exports = Backbone.View.extend({
             uname    = this.$el.find('#form_password').val(),
             token = btoa(password + ':' + uname),
             self = this;
-
+        var passwordConfirmation = this.$el.find('#form_confirm_password').val();
+        if(typeof passwordConfirmation !== "undefined"  ){
+            if(passwordConfirmation !== password) {
+                this.pop("Please confirm password again");
+                return;
+            }else{
+                fetchUrl = "http://www.liaokaien.com/api/code2gether/signup";
+            }
+        }
         $.post(fetchUrl, {token:token}, function(res){
             if(res.success && res.token === token){
                 window.location = '/index';
@@ -31,8 +42,13 @@ module.exports = Backbone.View.extend({
         });
     },
 
+    cancel: function(){
+        window.history.back();
+    },
+
     pop: function(error){
         // Indicate the error message
+        this.$el.find('.error_msg').text(error);
     }
 
 

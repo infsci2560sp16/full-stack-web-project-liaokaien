@@ -13282,30 +13282,19 @@ return jQuery;
 },{}],4:[function(require,module,exports){
 arguments[4][2][0].apply(exports,arguments)
 },{"dup":2}],5:[function(require,module,exports){
-var Backbone = require('backbone');
-var Project = require('../model/Project.js');
-
-module.exports = Backbone.Collection.extend({
-    modle: Project,
-    initialize: function(){
-    }
-});
-
-},{"../model/Project.js":8,"backbone":1}],6:[function(require,module,exports){
 module.exports = {
     baseUrl : 'http://www.liaokaien.com/api/code2gether'
 }
 
-},{}],7:[function(require,module,exports){
-var $ = require('jquery');
+},{}],6:[function(require,module,exports){
 var config = require('./config.js');
 var baseUrl = config.baseUrl;
 var fetchUrl = baseUrl + '/banner_data';
-var path = window.location.pathname.slice(1).split('.')[0];
 var BannerView = require('./view/Banner-View.js');
-var DashboardView = require('./view/Dashboard-View.js');
-var ProfileView = require('./view/UserProfile-View.js');
+var CreateProjectView =require('./view/CreateProject-View.js');
+var $ = require('jquery');
 
+new CreateProjectView();
 function renderBanner(data){
     new BannerView({
         model: data
@@ -13315,76 +13304,7 @@ function renderBanner(data){
 // load notifications
 $.getJSON(fetchUrl, renderBanner);
 
-//Route url to dashboard view.
-if(path === 'index'){
-    //Render dashboard
-    new DashboardView(
-        {
-            model: {
-                dataOrigin: 'dashboard'
-            }
-        });
-    new ProfileView({
-        model:{
-            origin: 'dashboard'
-        }
-    });
-
-    //Auto select 'Recent' Tab
-    $('.tab.recent').click();
-}
-
-//Route url to user_profile view.
-if(path === 'user_profile'){
-    new ProfileView({
-        model:{
-            origin: 'user_profile'
-        }
-    });
-
-    //User's project(open)
-    new DashboardView({
-        model: {
-            dataOrigin: 'user_profile'
-        }
-    });
-    //Auto select 'Recent' Tab
-    $('.tab.recent').click();
-}
-
-//Route url to user search view.
-
-},{"./config.js":6,"./view/Banner-View.js":10,"./view/Dashboard-View.js":11,"./view/UserProfile-View.js":15,"jquery":3}],8:[function(require,module,exports){
-var Backbone = require('backbone');
-
-
-module.exports = Backbone.Model.extend({
-});
-
-},{"backbone":1}],9:[function(require,module,exports){
-var $ = require('jquery');
-var _ = require('underscore');
-
-var getQueryParams = function(queryString) {
-    var query = (queryString || window.location.search).substring(1); // delete ?
-    if (!query) {
-        return false;
-    }
-    return _
-        .chain(query.split('&'))
-        .map(function(params) {
-            var p = params.split('=');
-            return [p[0], decodeURIComponent(p[1])];
-        })
-        .object()
-        .value();
-};
-
-module.exports = {
-    getQueryParams: getQueryParams
-};
-
-},{"jquery":3,"underscore":4}],10:[function(require,module,exports){
+},{"./config.js":5,"./view/Banner-View.js":7,"./view/CreateProject-View.js":8,"jquery":3}],7:[function(require,module,exports){
 var _ = require('underscore');
 var $ = require('jquery');
 var Backbone = require('backbone');
@@ -13423,167 +13343,93 @@ module.exports = Backbone.View.extend({
     }
 });
 
-},{"../config.js":6,"backbone":1,"jquery":3,"underscore":4}],11:[function(require,module,exports){
-var Backbone = require('backbone');
-var ProjectListView = require('./ProjectLists-View.js');
-
-module.exports = Backbone.View.extend({
-    el: '#app_container',
-    initialize: function(){
-        this.render();
-    },
-
-    render: function(){
-        var projectList = new ProjectListView({model:this.model});
-        this.$el.append(projectList.$el);
-    }
-});
-
-},{"./ProjectLists-View.js":14,"backbone":1}],12:[function(require,module,exports){
-var Backbone = require('backbone');
+},{"../config.js":5,"backbone":1,"jquery":3,"underscore":4}],8:[function(require,module,exports){
+var FormView = require('./Form-View.js');
 var $ = require('jquery');
-var ProjectItemView = require('./ProjectItem-View.js');
-var util = require('../util.js');
 var config = require('../config.js');
 var baseUrl = config.baseUrl;
-
-module.exports = Backbone.View.extend({
-    tagName : 'ul',
-    initialize: function(){
-        this.render();
-    },
-    addProjectItems: function(){
+var fetchUrl = baseUrl + '/getRelation';
+var submitUrl = baseUrl + '/new_project';
+module.exports = FormView.extend({
+    render: function(){
         var self = this;
-        this.model.models.forEach(function(model){
-            var item = new ProjectItemView({
-                model: model
-            });
-            self.$el.append(item.$el);
-        });
-    },
-    render: function(){
-        var origin = this.attributes['data-origin'],
-            self = this,
-            listType = this.className.split(' ')[1],
-            uid = util.getQueryParams()['u'],
-            fetchUrl = origin === 'dashboard'
-                ? baseUrl + '/user/projects'
-                : baseUrl + '/user/'+ uid + '/projects';
-        fetchUrl += '/' + listType;
-        this.model.url = fetchUrl;
         $.getJSON(fetchUrl, function(data){
-            self.model.reset(data);
-            self.addProjectItems();
+            console.log(data);
+            self.$el.append(self.template(data));
         });
-    }
-});
-
-},{"../config.js":6,"../util.js":9,"./ProjectItem-View.js":13,"backbone":1,"jquery":3}],13:[function(require,module,exports){
-var Backbone = require('backbone');
-var _ = require('underscore');
-var $ = require('jquery');
-
-module.exports = Backbone.View.extend({
-    tagName: 'li',
-    template: _.template($('#list_item_template').html()),
-    className: 'project_item',
-    initialize:function(){
-        this.render();
     },
-    render: function(){
-        this.$el.html(this.template(this.model.attributes));
+    login: function(){
+        var data = {
+            projectName : this.$el.find("#form_project_name").val(),
+            observer : this.$el.find('#invite_dropdown select').val()
+        };
+        $.post(submitUrl, data, function(res){
+        });
+    },
+
+    pop: function(){
+        // Pop up message that the project is successfully
+        // created and redirect to the project inspector url
     }
 });
 
-},{"backbone":1,"jquery":3,"underscore":4}],14:[function(require,module,exports){
+},{"../config.js":5,"./Form-View.js":9,"jquery":3}],9:[function(require,module,exports){
 var Backbone = require('backbone');
-var ListView = require('./List-View.js');
-var ProjectsListModel = require('../collection/ProjectsCollection.js');
 var _ = require('underscore');
 var $ = require('jquery');
 
-var tabList = ['recent', 'driver', 'observer'];
+var config = require('../config.js');
+var baseUrl = config.baseUrl;
+var fetchUrl = baseUrl + "/login";
 module.exports = Backbone.View.extend({
-    tagName : 'section',
-    id: 'projects_list_container',
-    template: _.template($('#list_template').html()),
-    events: {
-        "click #tab_switcher .tab" : "switchTab"
+    el: 'section.form_container',
+    template: _.template($('#form_template').html()),
+    events:{
+        "click #btn_submit" : "login",
+        "click #btn_cancel" : "cancel"
     },
     initialize : function(){
         this.render();
-
     },
     render: function(){
-        // Render the basic structure
         this.$el.append(this.template());
-
-        var container = this.$el.find("#projects_container");
-
-        var $model = this.model;
-        // Map list tab name to three ListView Backbone.View object
-        var lists = tabList.map(function(el){
-            var listview = new ListView({
-                className : 'project_list ' + el,
-                attributes: {
-                    "data-origin" : $model['dataOrigin']
-                },
-                model: new ProjectsListModel()
-            });
-            return listview;
-        });
-        // Append three ListView object to #projects_container
-        lists.forEach(function(ul){
-            container.append(ul.$el);
-        });
     },
 
-    switchTab: function(event){
-        var displayTab = event.currentTarget.classList[1],
-            hiddenTab  = tabList.filter(function(el){
-            return el !== displayTab;
-        });
-        var self = this;
-        _.chain(_.union([displayTab], hiddenTab))
-            .zip([true, false, false])
-            .each(function(operation){
-                var selector = ['.project_list', '.tab'].map(function(el){
-                    return el + '.' + operation[0];
-                }).join(',');
-                var element = self.$el.find(selector);
-                element.removeClass('selected');
-                if(operation[1]) element.addClass('selected');
-            });
-    }
-
-});
-
-},{"../collection/ProjectsCollection.js":5,"./List-View.js":12,"backbone":1,"jquery":3,"underscore":4}],15:[function(require,module,exports){
-var Backbone = require('backbone');
-var _ = require('underscore');
-var $ = require('jquery');
-var util = require('../util.js');
-var uid = util.getQueryParams()['uid'];
-var config = require('../config.js');
-var baseUrl = config.baseUrl;
-module.exports = Backbone.View.extend({
-    el: '#user_profile',
-    template: _.template($('#profile_template').html()),
-    initialize: function(){
-        this.render();
-    },
-    render: function(){
-        var fetchUrl;
-        if(this.model.origin === 'dashboard'){
-            fetchUrl = baseUrl + '/user/profile';
-        } else {
-            fetchUrl = baseUrl + '/user/' + uid + '/profile';
+    login: function(){
+        var password = this.$el.find('#form_password').val(),
+            uname    = this.$el.find('#form_password').val(),
+            token = btoa(password + ':' + uname),
+            self = this;
+        var passwordConfirmation = this.$el.find('#form_confirm_password').val();
+        if(typeof passwordConfirmation !== "undefined"  ){
+            if(passwordConfirmation !== password) {
+                this.pop("Please confirm password again");
+                return;
+            }else{
+                fetchUrl = "http://www.liaokaien.com/api/code2gether/signup";
+            }
         }
-        var self = this;
-        $.getJSON(fetchUrl, function(data){
-            self.$el.append(self.template(data));
+        $.post(fetchUrl, {token:token}, function(res){
+            if(res.success && res.token === token){
+                window.location = '/index';
+            } else{
+                self.pop(res.error);
+            }
         });
+    },
+
+    cancel: function(){
+        window.history.back();
+    },
+
+    pop: function(error){
+        // Indicate the error message
+        this.$el.find('.error_msg').text(error);
     }
+
+
 });
 
-},{"../config.js":6,"../util.js":9,"backbone":1,"jquery":3,"underscore":4}]},{},[7]);
+
+
+},{"../config.js":5,"backbone":1,"jquery":3,"underscore":4}]},{},[6]);

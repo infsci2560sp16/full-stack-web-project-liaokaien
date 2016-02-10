@@ -28,28 +28,55 @@ $banner_height: 3em;
     
 }
 
-#user_avatar{
-    width: 64px;
-    height: 3em;
-    margin-right: 48px;
-    float: right;
-}
+
+
 
 $notification_icon_width: $banner_height;
 $notification_list_width: 14em;
-#notification{
+
+.banner_element{
     float:right;
-    margin-right: $notification_icon_width;
     height: $banner_height;
     position:relative;
+    right: 80px;
+    margin-right: 24px;
     cursor: pointer;
 }
+
+#search_user{
+    width: 180px;
+    height:2em;
+    position: relative;
+    top: ($banner_height - 2)/2;
+    input[type='search']{
+        line-height: 1.5em;
+        height: 1.5em;
+        font-family: 'avenir';
+        text-indent: 0.5em;
+        color: #5C6BC0;
+    }
+}
+#user_avatar{
+    width: 2em;
+    height: 2em;
+    position: relative;
+    top: ($banner_height - 2)/2;
+
+}
+
+
 
 #btn_notification{
     position: relative;
     top: ($banner_height - 2)/2;;
     height: 2em;
     
+}
+
+#sign_out>svg{
+    position: relative;
+    height: 1.5rem;
+    top: ($banner_height - 1.5)/2;;
 }
 
 #notifications_list{

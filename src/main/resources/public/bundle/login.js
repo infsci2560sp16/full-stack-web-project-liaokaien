@@ -13282,23 +13282,31 @@ return jQuery;
 },{}],4:[function(require,module,exports){
 arguments[4][2][0].apply(exports,arguments)
 },{"dup":2}],5:[function(require,module,exports){
+module.exports = {
+    baseUrl : 'http://www.liaokaien.com/api/code2gether'
+}
+
+},{}],6:[function(require,module,exports){
 var $ = require('jquery');
 var formView = require('./view/Form-View.js');
 
 new formView();
 
 
-},{"./view/Form-View.js":6,"jquery":3}],6:[function(require,module,exports){
+},{"./view/Form-View.js":7,"jquery":3}],7:[function(require,module,exports){
 var Backbone = require('backbone');
 var _ = require('underscore');
 var $ = require('jquery');
 
-var fetchUrl = "http://www.liaokaien.com/api/code2gether/login";
+var config = require('../config.js');
+var baseUrl = config.baseUrl;
+var fetchUrl = baseUrl + "/login";
 module.exports = Backbone.View.extend({
     el: 'section.form_container',
     template: _.template($('#form_template').html()),
     events:{
-        "click #btn_submit" : "login"
+        "click #btn_submit" : "login",
+        "click #btn_cancel" : "cancel"
     },
     initialize : function(){
         this.render();
@@ -13312,7 +13320,15 @@ module.exports = Backbone.View.extend({
             uname    = this.$el.find('#form_password').val(),
             token = btoa(password + ':' + uname),
             self = this;
-
+        var passwordConfirmation = this.$el.find('#form_confirm_password').val();
+        if(typeof passwordConfirmation !== "undefined"  ){
+            if(passwordConfirmation !== password) {
+                this.pop("Please confirm password again");
+                return;
+            }else{
+                fetchUrl = "http://www.liaokaien.com/api/code2gether/signup";
+            }
+        }
         $.post(fetchUrl, {token:token}, function(res){
             if(res.success && res.token === token){
                 window.location = '/index';
@@ -13322,8 +13338,13 @@ module.exports = Backbone.View.extend({
         });
     },
 
+    cancel: function(){
+        window.history.back();
+    },
+
     pop: function(error){
         // Indicate the error message
+        this.$el.find('.error_msg').text(error);
     }
 
 
@@ -13331,4 +13352,4 @@ module.exports = Backbone.View.extend({
 
 
 
-},{"backbone":1,"jquery":3,"underscore":4}]},{},[5]);
+},{"../config.js":5,"backbone":1,"jquery":3,"underscore":4}]},{},[6]);

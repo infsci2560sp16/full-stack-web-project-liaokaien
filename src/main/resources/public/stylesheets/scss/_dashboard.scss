@@ -1,32 +1,7 @@
-aside, #app_container {
-    margin-top: 40px;
-}
-aside{
-    float: left;
-    width: 20%;
-
-    ol{
-        list-style: none;
-        li{
-            margin:6px 0;
-            a{
-                padding-left: 16px;
-                text-decoration: none;
-                color: #555858;
-            }
-        }
-        li.selected {
-            a{
-                border-left: 4px solid #5C6BC0;
-                padding-left: 12px;
-            }
-        }
-    }
-}
-
 #app_container{
     width: 80%;
     float: right;
+    margin: 40px 0;
 }
 
 #tab_switcher{
@@ -80,6 +55,7 @@ aside{
     list-style: none;
     &.selected{
         display: block;
+        padding: 24px 0 0 0;
     }
 }
 
@@ -113,5 +89,27 @@ aside{
     }
 }
 
-#tab_switcher{
+#btn_new_project{
+    $purple: #5C6BC0;
+    width: 60%;
+    margin: 0 auto;
+    border-radius: 6px;
+    border: 2px solid $purple;
+    line-height: 2em;
+    text-align: center;
+    transition: all 0.2s linear;
+
+    a{
+        text-decoration: none;
+        color: $purple;
+    }
+
+    &:hover{
+        background-color: $purple;
+        a{
+            color: #ffffff;
+        }
+    }
+
+
 }

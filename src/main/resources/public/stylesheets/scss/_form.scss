@@ -1,0 +1,98 @@
+#site_desc{
+    font-family:  'avenir';
+    margin-left: 68px;
+    h1 { 
+        font-style: italic;
+    }
+    
+    p{
+        margin-left: 36px;
+    }
+}
+.form_container.tall{
+    form{
+        height:260px;
+    }
+}
+
+.form_container{
+    margin-top: 88px;
+    font-family: 'avenir';
+
+    form{
+        height: 220px;
+        width: 340px;
+        margin: 0 auto;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        justify-content: space-between;
+    }
+}
+
+.form_row, .dropdown_wrap{
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+}
+.form_row{
+    label{
+        margin-right: 24px;
+        transform: translateY(.5em);
+    }    
+    
+    input:-webkit-autofill {
+        -webkit-box-shadow: 0 0 0px 1000px white inset;
+    }
+    
+    input[type='password'], input[type='text']{
+        background: none;
+        border: none;
+        border-bottom: 2px solid #E57373;
+        width: 50%;
+        &:focus{
+            outline: none;
+        }
+    }
+    
+}
+.btn_group{
+    width: 100%;
+    display:flex;
+    justify-content: space-between;
+}
+.btn_group > input[type='button']{
+    width: 40%;
+    border: none;
+    padding: 7px 0;
+    border-radius: 3px;
+    color: #FDFDFD;
+}
+
+#btn_submit{
+    background-color: #A9CA85;
+}
+#btn_cancel{
+    background-color: #E57373;
+}
+    
+#sign_up_tip{
+    a{
+        color:#26A69A;
+        font-family: 'avenir';
+        text-decoration: none;
+    }
+    a:hover, a:active{
+                 color:#00897B;
+                 text-decoration: underline;
+             }
+}
+.error_msg{
+    color: red;
+    height:1em;
+    text-align: center;
+}
+
+.dropdown_wrap{
+    margin-top: 48px;
+}
