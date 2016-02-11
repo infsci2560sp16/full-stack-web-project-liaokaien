@@ -1,0 +1,46 @@
+@import 'util';
+.user_list{
+    width:40%;
+    margin: 60px auto 0 auto;
+    list-style:none;
+}
+
+.user_list_item{
+    margin: 18px 0;
+    width: 100%;
+    border-radius: 6px;
+    border: 1px solid #CACACA;
+    @include clearfix();
+    font-family: 'avenir';
+    height:2rem;
+    line-height:2rem;
+    span.list_item{
+
+        &.username, &.relation{
+            float: left;
+            margin-left: 12px;
+        }
+
+        &.relation, &.btn_add_friend{
+            color: #ffffff;
+            padding:0 4px;
+            border-radius: 3px;
+            line-height: 1.5em;
+            transform: translateY(.25em);
+            font-family: 'helvitica neue',sans-serif;
+        }
+        &.username{
+        }
+
+        &.relation{
+            background-color: #4CAF50;
+        }
+
+
+        &.btn_add_friend{
+            float:right;
+            margin-right: 8px;
+            background-color: #FF8F00;
+        }
+    }
+}

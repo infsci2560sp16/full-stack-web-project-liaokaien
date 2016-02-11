@@ -12,7 +12,7 @@ module.exports = FormView.extend({
             self.$el.append(self.template(data));
         });
     },
-    login: function(){
+    submit: function(){
         var data = {
             projectName : this.$el.find("#form_project_name").val(),
             observer : this.$el.find('#invite_dropdown select').val()

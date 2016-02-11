@@ -37,6 +37,7 @@
 }
 .form_row{
     label{
+        max-width: 30%;
         margin-right: 24px;
         transform: translateY(.5em);
     }    
@@ -55,14 +56,25 @@
         }
     }
     
+    &.hidden{
+        display:none;
+    }
+}
+.btn_edit{
+    float: right;
+    left: 4em;
 }
 .btn_group{
     width: 100%;
     display:flex;
     justify-content: space-between;
+
+    a{
+        color: #FDFDFD;
+    }
 }
-.btn_group > input[type='button']{
-    width: 40%;
+.btn_group  input[type='button']{
+    width: 120px;
     border: none;
     padding: 7px 0;
     border-radius: 3px;

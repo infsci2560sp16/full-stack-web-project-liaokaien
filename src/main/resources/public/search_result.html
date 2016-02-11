@@ -8,9 +8,8 @@
 <body>
     <!--Banner-View goes here-->
     <nav id="app_banner"></nav>
-    <section id="app_container"></section>
-    <aside id="user_profile"> </aside>
-<!--************ Underscore Templates ****************-->
+    <section id="user_list_wrap"></section>
+    <!--************ Underscore Templates ****************-->
     <script type="text/template" id="banner_template">
         <div id="site_logo">
             Logo
@@ -45,34 +44,24 @@
             <input name="user_search" type="search" value="" placeholder="search user"/>
         </div>
     </script>
-
-    <script type="text/template" id="list_template">
-        <div id="tab_switcher">
-            <div class="tab recent">Recent</div>
-            <div class="tab driver">As Driver</div>
-            <div class="tab observer">As Observer</div>
+    <script type="text/template" id="user_list_template">
+        <ol class="user_list">
+            <% if(success){ %>
+            <% _.each(userList, function(user){ %>
+            <li class="user_list_item">
+                <span class="list_item username"><%- user.uname %></span>
+                <% if(user.relation === null){ %>
+                <span class="list_item btn_add_friend">Add as friend</span>
+                <% }else{ %>
+                <span class="list_item relation"><%- user.relation %></span>
+                <% } %>
+            </li>
+            <% }); %>
+            <% }else{ %>
+            <span class="error_msg align_center">Search result is empty.</span>
+            <% } %>
+        </ol>
         </div>
-        <div id="projects_container"></div>
-
-        <!-- DONEs: Add a 'Create project' button -->
-        <div id="btn_new_project">
-            <a href="/new_project">Create A New Project</a>
-        </div>
-    </script>
-
-    <script type="text/template" id="profile_template">
-        <div class="user_profile_avatar"></div>
-        <div class="user_profile_name">
-            <%- uname %>
-        </div>
-    </script>
-
-    <script type="text/template" id="list_item_template">
-        <span class="project_name"><%- name %></span>
-        <span class="project_type <%- type %>"><%- type %></span>
-        <span class="related_user">
-            <a href="/user_profile?uid=<%- related_uid %>"><%- related_uname %></a>
-        </span>
     </script>
 
     <script src="bundle/main.js" type="application/javascript"></script>

@@ -9,7 +9,7 @@ module.exports = Backbone.View.extend({
     el: 'section.form_container',
     template: _.template($('#form_template').html()),
     events:{
-        "click #btn_submit" : "login",
+        "click #btn_submit" : "submit",
         "click #btn_cancel" : "cancel"
     },
     initialize : function(){
@@ -19,7 +19,7 @@ module.exports = Backbone.View.extend({
         this.$el.append(this.template());
     },
 
-    login: function(){
+    submit: function(){
         var password = this.$el.find('#form_password').val(),
             uname    = this.$el.find('#form_password').val(),
             token = btoa(password + ':' + uname),

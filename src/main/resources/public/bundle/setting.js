@@ -13284,25 +13284,36 @@ arguments[4][2][0].apply(exports,arguments)
 },{"dup":2}],5:[function(require,module,exports){
 module.exports = {
     baseUrl : 'http://www.liaokaien.com/api/code2gether'
-}
+};
 
 },{}],6:[function(require,module,exports){
+var $ = require('jquery');
 var config = require('./config.js');
 var baseUrl = config.baseUrl;
-var fetchUrl = baseUrl + '/banner_data';
 var BannerView = require('./view/Banner-View.js');
-var $ = require('jquery');
-
+var SettingView = require('./view/Setting-View.js');
+var fetchUrl;
 function renderBanner(data){
     new BannerView({
         model: data
     });
 }
-
+function renderSettingForm(data){
+    new SettingView({
+        model: data
+    });
+}
+// load user setting
+fetchUrl = baseUrl + '/user/get_setting';
+$.getJSON(fetchUrl, renderSettingForm);
 // load notifications
+fetchUrl = baseUrl + '/banner_data';
 $.getJSON(fetchUrl, renderBanner);
 
-},{"./config.js":5,"./view/Banner-View.js":7,"jquery":3}],7:[function(require,module,exports){
+
+
+
+},{"./config.js":5,"./view/Banner-View.js":7,"./view/Setting-View.js":9,"jquery":3}],7:[function(require,module,exports){
 var _ = require('underscore');
 var $ = require('jquery');
 var Backbone = require('backbone');
@@ -13337,8 +13348,105 @@ module.exports = Backbone.View.extend({
     },
     searchUser: function(event){
         var searchQuery = this.processQuery(event.target.value);
-        window.location.href = baseUrl + '/search?q=' + searchQuery;
+        window.location.href = '/search_result?q=' + searchQuery;
     }
 });
 
-},{"../config.js":5,"backbone":1,"jquery":3,"underscore":4}]},{},[6]);
+},{"../config.js":5,"backbone":1,"jquery":3,"underscore":4}],8:[function(require,module,exports){
+var Backbone = require('backbone');
+var _ = require('underscore');
+var $ = require('jquery');
+
+var config = require('../config.js');
+var baseUrl = config.baseUrl;
+var fetchUrl = baseUrl + "/login";
+module.exports = Backbone.View.extend({
+    el: 'section.form_container',
+    template: _.template($('#form_template').html()),
+    events:{
+        "click #btn_submit" : "submit",
+        "click #btn_cancel" : "cancel"
+    },
+    initialize : function(){
+        this.render();
+    },
+    render: function(){
+        this.$el.append(this.template());
+    },
+
+    submit: function(){
+        var password = this.$el.find('#form_password').val(),
+            uname    = this.$el.find('#form_password').val(),
+            token = btoa(password + ':' + uname),
+            self = this;
+        var passwordConfirmation = this.$el.find('#form_confirm_password').val();
+        if(typeof passwordConfirmation !== "undefined"  ){
+            if(passwordConfirmation !== password) {
+                this.pop("Please confirm password again");
+                return;
+            }else{
+                fetchUrl = "http://www.liaokaien.com/api/code2gether/signup";
+            }
+        }
+        $.post(fetchUrl, {token:token}, function(res){
+            if(res.success && res.token === token){
+                window.location = '/index';
+            } else{
+                self.pop(res.error);
+            }
+        });
+    },
+
+    cancel: function(){
+        window.history.back();
+    },
+
+    pop: function(error){
+        // Indicate the error message
+        this.$el.find('.error_msg').text(error);
+    }
+
+
+});
+
+
+
+},{"../config.js":5,"backbone":1,"jquery":3,"underscore":4}],9:[function(require,module,exports){
+var FormView = require('./Form-View.js');
+var $ = require('jquery');
+var _ = require('underscore');
+var config = require('../config.js');
+var baseUrl = config.baseUrl;
+
+module.exports = FormView.extend({
+    events: function(){
+        return _.extend({
+            'input #form_password' : 'showOldPasswordInput'
+        }, FormView.prototype.events);
+    },
+
+    render: function(){
+        this.$el.append(this.template(this.model));
+    },
+    initialize : function(){
+        this.render();
+    },
+
+    cancel: function(){
+        // window.location.href = '/index';
+    },
+
+    submit: function(){
+    },
+    showOldPasswordInput: function(event){
+        var pw = $(event.target).val();
+        if(pw.length > 0){
+            this.$el.find('.form_row.old_password').removeClass('hidden');
+        }else{
+            this.$el.find('.form_row.old_password').addClass('hidden');
+        }
+    }
+
+});
+
+},{"../config.js":5,"./Form-View.js":8,"jquery":3,"underscore":4}]},{},[6]);

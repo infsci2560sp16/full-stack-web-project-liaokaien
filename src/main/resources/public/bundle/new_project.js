@@ -13284,7 +13284,7 @@ arguments[4][2][0].apply(exports,arguments)
 },{"dup":2}],5:[function(require,module,exports){
 module.exports = {
     baseUrl : 'http://www.liaokaien.com/api/code2gether'
-}
+};
 
 },{}],6:[function(require,module,exports){
 var config = require('./config.js');
@@ -13339,7 +13339,7 @@ module.exports = Backbone.View.extend({
     },
     searchUser: function(event){
         var searchQuery = this.processQuery(event.target.value);
-        window.location.href = baseUrl + '/search?q=' + searchQuery;
+        window.location.href = '/search_result?q=' + searchQuery;
     }
 });
 
@@ -13358,7 +13358,7 @@ module.exports = FormView.extend({
             self.$el.append(self.template(data));
         });
     },
-    login: function(){
+    submit: function(){
         var data = {
             projectName : this.$el.find("#form_project_name").val(),
             observer : this.$el.find('#invite_dropdown select').val()
@@ -13385,7 +13385,7 @@ module.exports = Backbone.View.extend({
     el: 'section.form_container',
     template: _.template($('#form_template').html()),
     events:{
-        "click #btn_submit" : "login",
+        "click #btn_submit" : "submit",
         "click #btn_cancel" : "cancel"
     },
     initialize : function(){
@@ -13395,7 +13395,7 @@ module.exports = Backbone.View.extend({
         this.$el.append(this.template());
     },
 
-    login: function(){
+    submit: function(){
         var password = this.$el.find('#form_password').val(),
             uname    = this.$el.find('#form_password').val(),
             token = btoa(password + ':' + uname),

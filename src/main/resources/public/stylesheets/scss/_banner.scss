@@ -43,6 +43,9 @@ $notification_list_width: 14em;
     cursor: pointer;
 }
 
+#user_avatar{
+    background: url(/images/avatar.png) center center/100% no-repeat;
+}
 #search_user{
     width: 180px;
     height:2em;

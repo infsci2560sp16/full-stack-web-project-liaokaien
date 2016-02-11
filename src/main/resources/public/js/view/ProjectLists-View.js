@@ -28,7 +28,7 @@ module.exports = Backbone.View.extend({
             var listview = new ListView({
                 className : 'project_list ' + el,
                 attributes: {
-                    "data-origin" : $model['dataOrigin']
+                    "data-origin" : $model.dataOrigin
                 },
                 model: new ProjectsListModel()
             });

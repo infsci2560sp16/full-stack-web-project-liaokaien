@@ -15,7 +15,7 @@ function renderSettingForm(data){
     });
 }
 // load user setting
-fetchUrl = baseUrl + '/user/setting';
+fetchUrl = baseUrl + '/user/get_setting';
 $.getJSON(fetchUrl, renderSettingForm);
 // load notifications
 fetchUrl = baseUrl + '/banner_data';
