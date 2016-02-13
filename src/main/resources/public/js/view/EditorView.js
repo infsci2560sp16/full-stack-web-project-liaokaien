@@ -14,9 +14,7 @@ module.exports = Backbone.View.extend({
     el: '#editor_panel',
     template: _.template($('#editor_panel_template').html()),
     events: {
-        'click .gutter_comment': 'showComment',
-        'click .gutter_comment .btn_close': 'hideComment'
-
+        'click .gutter_comment': 'showComment'
     },
     initialize: function(){
         this.render();
@@ -55,11 +53,14 @@ module.exports = Backbone.View.extend({
         var template = _.template($('#comment_box_template').html());
         if(this.commentList[lineNumber].length === 0) return;
         var commentBoxContent = template({comments:this.commentList[lineNumber]});
-        $('#comments_container').html(commentBoxContent).addClass('display');
-    },
-
-    hideComment: function(){
-        $('#comments_container').removeClass('display');
+        $('#message_board').addClass('blur');
+        $('#comments_container').html(commentBoxContent).addClass('display').css({
+            top: (((lineNumber*1.5)+0.5) + 'rem')
+        });
+        if(lineNumber === 0){
+            $('#comments_container').css({'margin-top':'-8px'});
+        }else{
+            $('#comments_container').css({'margin-top':'0px'});
+        }
     }
-
 });

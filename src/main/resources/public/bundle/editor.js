@@ -13287,11 +13287,20 @@ module.exports = {
 };
 
 },{}],6:[function(require,module,exports){
-var EditorView = require('./view/EditorView.js');
+var EditorView = require('./view/EditorView.js'),
+    MessageView = require('./view/MessageBoard-View.js'),
+    $ = require('jquery');
+
 
 new EditorView();
+new MessageView();
 
-},{"./view/EditorView.js":10}],7:[function(require,module,exports){
+$('#comments_container').on('click', '.btn_close', function(){
+    $('#comments_container').removeClass('display');
+    $('#message_board').removeClass('blur');
+});
+
+},{"./view/EditorView.js":10,"./view/MessageBoard-View.js":11,"jquery":3}],7:[function(require,module,exports){
 // CodeMirror, copyright (c) by Marijn Haverbeke and others
 // Distributed under an MIT license: http://codemirror.net/LICENSE
 
@@ -23058,9 +23067,7 @@ module.exports = Backbone.View.extend({
     el: '#editor_panel',
     template: _.template($('#editor_panel_template').html()),
     events: {
-        'click .gutter_comment': 'showComment',
-        'click .gutter_comment .btn_close': 'hideComment'
-
+        'click .gutter_comment': 'showComment'
     },
     initialize: function(){
         this.render();
@@ -23099,13 +23106,35 @@ module.exports = Backbone.View.extend({
         var template = _.template($('#comment_box_template').html());
         if(this.commentList[lineNumber].length === 0) return;
         var commentBoxContent = template({comments:this.commentList[lineNumber]});
-        $('#comments_container').html(commentBoxContent).addClass('display');
-    },
-
-    hideComment: function(){
-        $('#comments_container').removeClass('display');
+        $('#message_board').addClass('blur');
+        $('#comments_container').html(commentBoxContent).addClass('display').css({
+            top: (((lineNumber*1.5)+0.5) + 'rem')
+        });
+        if(lineNumber === 0){
+            $('#comments_container').css({'margin-top':'-8px'});
+        }else{
+            $('#comments_container').css({'margin-top':'0px'});
+        }
     }
-
 });
 
-},{"../config.js":5,"../lib/codemirror.js":7,"../lib/panel.js":8,"../mode/javascript/javascript.js":9,"backbone":1,"jquery":3,"underscore":4}]},{},[6]);
+},{"../config.js":5,"../lib/codemirror.js":7,"../lib/panel.js":8,"../mode/javascript/javascript.js":9,"backbone":1,"jquery":3,"underscore":4}],11:[function(require,module,exports){
+var Backbone = require('backbone'),
+    $ = require('jquery'),
+    _ = require('underscore'),
+    config = require('../config.js');
+
+var baseUrl = config.baseUrl;
+
+module.exports = Backbone.View.extend({
+    el: '#message_panel',
+    template: _.template($('#message_panel_template').html()),
+    initialize: function(){
+        this.render();
+    },
+    render: function(){
+        this.$el.append(this.template());
+    }
+});
+
+},{"../config.js":5,"backbone":1,"jquery":3,"underscore":4}]},{},[6]);

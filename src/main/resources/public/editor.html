@@ -1,21 +1,33 @@
 <!DOCTYPE html>
 <html>
+
 <head lang="en">
-  <meta charset="UTF-8">
-  <title>Editor</title>
-  <link href="stylesheets/css/editor.css" rel="stylesheet"/>
+    <meta charset="UTF-8">
+    <title>Editor</title>
+    <link href="stylesheets/css/editor.css" rel="stylesheet" />
 </head>
+
 <body>
 
     <section id="editor_panel"> </section>
     <section id="message_panel"> </section>
+    <section id="comments_container"> </section>
 
     <script type="text/template" id="comment_box_template">
-        <% _.each(comments, function(comment, i){ %>
-        <div class="comment_item" data-line="<%- i %>">
-            <div class="comment_content"> <%- comment %></div>
+        <div class="btn_close">
+            <svg class="svg-icon" viewBox="0 0 20 20">
+                <path d="M10.185,1.417c-4.741,0-8.583,3.842-8.583,8.583c0,4.74,3.842,8.582,8.583,8.582S18.768,14.74,18.768,10C18.768,5.259,14.926,1.417,10.185,1.417 M10.185,17.68c-4.235,0-7.679-3.445-7.679-7.68c0-4.235,3.444-7.679,7.679-7.679S17.864,5.765,17.864,10C17.864,14.234,14.42,17.68,10.185,17.68 M10.824,10l2.842-2.844c0.178-0.176,0.178-0.46,0-0.637c-0.177-0.178-0.461-0.178-0.637,0l-2.844,2.841L7.341,6.52c-0.176-0.178-0.46-0.178-0.637,0c-0.178,0.176-0.178,0.461,0,0.637L9.546,10l-2.841,2.844c-0.178,0.176-0.178,0.461,0,0.637c0.178,0.178,0.459,0.178,0.637,0l2.844-2.841l2.844,2.841c0.178,0.178,0.459,0.178,0.637,0c0.178-0.176,0.178-0.461,0-0.637L10.824,10z"></path>
+            </svg>
         </div>
-        <% }); %>
+        <ol>
+            <% _.each(comments, function(comment, i){ %>
+                <li class="comment_item" data-line="<%- i %>">
+                    <div class="comment_content">
+                        <%- comment %>
+                    </div>
+                </li>
+                <% }); %>
+        </ol>
     </script>
     <script type="text/template" id="editor_panel_template">
         <section id="editor_toolbar">
@@ -24,41 +36,44 @@
         </section>
         <section id="editor_codemirror_container">
             <section id="gutter_container">
-                <!-- use _.template to load data into comments_container -->
                 <% _.each(lines, function(line, i){ %>
-                <div class="gutter_comment" data-line="<%- i %>">
-                    <% if(line.length>0){ %>
-                    <div class="gutter_circle"> </div>
-                    <% } %>
-                </div>
-                <% }); %>
-                <div id="comments_container"> </div>
+                    <div class="gutter_comment" data-line="<%- i %>">
+                        <% if(line.length>0){ %>
+                            <div class="gutter_circle"> </div>
+                            <% } %>
+                    </div>
+                    <% }); %>
             </section>
             <!-- Container for CodeMirror Editor -->
             <textarea cols="30" id="code_mirror" name="" rows="10"> </textarea>
         </section>
     </script>
     <script type="text/template" id="message_panel_template">
-        <h2 class="messabe_board_title">Messages</h2>
         <ol id="message_board">
-            <ol>
-            </ol>
             <li class="message_box from_driver">
-                <span class="message_uname">Kane</span>
-                <span class="message_content">Hi!</span>
+                <div class="message_uname">
+                    <span>Kane</span>
+                </div>
+                <div class="message_content">
+                    <span class="arrow_left"> </span>
+                    <span>Hi Tim, how do you think about my solution?</span>
+                </div>
             </li>
-
             <li class="message_box from_observer">
-                <span class="message_uname">Tim</span>
-                <span class="message_content">Hi!</span>
+                <div class="message_uname">Tim</div>
+                <div class="message_content">
+                    <span class="arrow_left"> </span>
+                    <span>I leave some comments on the left~</span>
+                </div>
             </li>
         </ol>
 
-        <form id="message_input">
-            <textarea cols="30" id="message_input_editable_area" name="" rows="10"> </textarea>
-            <input name="" type="button" value="Send"/>
+        <form id="message_input_panel">
+            <input type="text" class="message_input" name="" />
+            <input name="" class="btn_send"type="button" value="Send" />
         </form>
     </script>
     <script src="bundle/editor.js"></script>
 </body>
+
 </html>
