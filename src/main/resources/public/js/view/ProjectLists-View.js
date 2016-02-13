@@ -1,13 +1,12 @@
 var Backbone = require('backbone');
-var ListView = require('./List-View.js');
+var ProjectListView = require('./ProjectList-View.js');
 var ProjectsListModel = require('../collection/ProjectsCollection.js');
 var _ = require('underscore');
 var $ = require('jquery');
 
 var tabList = ['recent', 'driver', 'observer'];
 module.exports = Backbone.View.extend({
-    tagName : 'section',
-    id: 'projects_list_container',
+    el:'#project_lists_wrap',
     template: _.template($('#list_template').html()),
     events: {
         "click #tab_switcher .tab" : "switchTab"
@@ -23,9 +22,9 @@ module.exports = Backbone.View.extend({
         var container = this.$el.find("#projects_container");
 
         var $model = this.model;
-        // Map list tab name to three ListView Backbone.View object
+        // Map list tab name to three ProjectListView Backbone.View object
         var lists = tabList.map(function(el){
-            var listview = new ListView({
+            var listview = new ProjectListView({
                 className : 'project_list ' + el,
                 attributes: {
                     "data-origin" : $model.dataOrigin
@@ -34,7 +33,7 @@ module.exports = Backbone.View.extend({
             });
             return listview;
         });
-        // Append three ListView object to #projects_container
+        // Append three ProjectListView object to #projects_container
         lists.forEach(function(ul){
             container.append(ul.$el);
         });

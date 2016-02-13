@@ -3,6 +3,13 @@
     float: right;
     margin: 40px 0;
 }
+.list_header{
+    text-align: left;
+    width: 60%;
+    font-family: consolas;
+    margin: 20px auto 25px auto;
+    padding-bottom: 1em;
+}
 
 #tab_switcher{
     $purple: #5C6BC0;
@@ -41,9 +48,9 @@
     
 }
 
-#projects_container{
+#project_lists_wrap, #user_list_wrap{
     width: 60%;
-    margin:0 auto;
+    margin:0 auto 50px auto;
 }
 
 .project_list{

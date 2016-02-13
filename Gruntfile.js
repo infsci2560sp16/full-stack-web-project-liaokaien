@@ -28,7 +28,7 @@ module.exports = function(grunt) {
                     console: true,
                     module: true
                 },
-                ignores: ['<%= srcFolder %>/public/js/bundle/*.js'],
+                ignores: ['<%= srcFolder %>/public/js/bundle/*.js','<%= srcFolder %>/public/js/mode/**/*.js','<%= srcFolder %>/public/js/lib/*.js'],
                 esnext: true
             }
         },
@@ -96,7 +96,7 @@ module.exports = function(grunt) {
                 files: [{
                     expand: true,
                     cwd: '<%= srcFolder %>/public/js/',
-                    src: ['*.js', '!/view/', '!/model/', '!/router', '!util.js', '!config.js'],
+                    src: ['*.js', '!/view/', '!/model/', '!/router', '!util.js', '!config.js', '!codemirror.js'],
                     dest: '<%= srcFolder %>/public/bundle/'
                 }]
             }

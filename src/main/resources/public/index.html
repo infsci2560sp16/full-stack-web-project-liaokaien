@@ -8,7 +8,12 @@
 <body>
     <!--Banner-View goes here-->
     <nav id="app_banner"></nav>
-    <section id="app_container"></section>
+    <section id="app_container">
+        <h4 class="list_header">Projects</h4>
+        <section id="project_lists_wrap"></section>
+        <h4 class="list_header">Friends</h4>
+        <section id="user_list_wrap"></section>
+    </section>
     <aside id="user_profile"> </aside>
 <!--************ Underscore Templates ****************-->
     <script type="text/template" id="banner_template">
@@ -43,6 +48,28 @@
         </a>
         <div id="search_user" class="banner_element">
             <input name="user_search" type="search" value="" placeholder="search user"/>
+        </div>
+    </script>
+
+    <script type="text/template" id="user_list_template">
+        <ol class="user_list">
+            <% if(success){ %>
+            <% _.each(userList, function(user){ %>
+            <li class="user_list_item">
+                <span class="list_item username">
+                    <a href="/user_profile?uid=<%- user.uid %>"><%- user.uname %></a> 
+                </span>
+                <% if(user.relation === null){ %>
+                <span class="list_item btn_add_friend">Add as friend</span>
+                <% }else{ %>
+                <span class="list_item relation"><%- user.relation %></span>
+                <% } %>
+            </li>
+            <% }); %>
+            <% }else{ %>
+            <span class="error_msg align_center">Search result is empty.</span>
+            <% } %>
+        </ol>
         </div>
     </script>
 

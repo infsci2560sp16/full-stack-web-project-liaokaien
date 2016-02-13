@@ -13302,12 +13302,21 @@ var _ = require('underscore');
 var config = require('./config.js');
 var baseUrl = config.baseUrl;
 var fetchUrl = baseUrl + '/banner_data';
-var path = window.location.pathname.slice(1);
+var path = window.location.pathname.slice(1).split('.')[0];
 var BannerView = require('./view/Banner-View.js');
 var util = require('./util.js');
-console.log(path);
 function renderBanner(data){
     new BannerView({
+        model: data
+    });
+}
+
+function renderUserList(res){
+    var data  = {
+        success: res.length?true:false,
+        userList: res
+    };
+    new UserListView({
         model: data
     });
 }
@@ -13315,31 +13324,42 @@ function renderBanner(data){
 // load notifications
 $.getJSON(fetchUrl, renderBanner);
 
+var ProjectsListView, ProfileView, UserListView;
 //Route url to dashboard view.
 if(path === 'index' || path === 'user_profile'){
-    var DashboardView = require('./view/Dashboard-View.js');
-    var ProfileView = require('./view/UserProfile-View.js');
+    ProjectsListView = require('./view/ProjectLists-View.js');
+    ProfileView   = require('./view/UserProfile-View.js');
+    UserListView  = require('./view/UserList-View.js');
 
     //Render dashboard
-    new DashboardView(
+    new ProjectsListView(
         {
             model: {
                 dataOrigin: path
             }
         });
+
     new ProfileView({
         model:{
             origin: path
         }
     });
 
+    if(path === 'index'){
+        fetchUrl = baseUrl + '/user/getRelation';
+    } else {
+        fetchUrl = baseUrl + '/user/' + util.getQueryParams().u + '/getRelation';
+    }
+    $.getJSON(fetchUrl, renderUserList);
+
+
     //Auto select 'Recent' Tab
     $('.tab.recent').click();
 }
 
 if(path === 'search_result'){
-    var UserListView = require('./view/UserList-View.js'),
-        query        = util.getQueryParams().q;
+    UserListView = require('./view/UserList-View.js');
+    var query    = util.getQueryParams().q;
     $.getJSON(baseUrl+'/search?q=' + query, function(res){
         var data  = {
             success: res.length?true:false,
@@ -13354,7 +13374,7 @@ if(path === 'search_result'){
 
 //Route url to user search view.
 
-},{"./config.js":6,"./util.js":9,"./view/Banner-View.js":10,"./view/Dashboard-View.js":11,"./view/UserList-View.js":15,"./view/UserProfile-View.js":16,"jquery":3,"underscore":4}],8:[function(require,module,exports){
+},{"./config.js":6,"./util.js":9,"./view/Banner-View.js":10,"./view/ProjectLists-View.js":13,"./view/UserList-View.js":14,"./view/UserProfile-View.js":15,"jquery":3,"underscore":4}],8:[function(require,module,exports){
 var Backbone = require('backbone');
 
 
@@ -13425,21 +13445,22 @@ module.exports = Backbone.View.extend({
 
 },{"../config.js":6,"backbone":1,"jquery":3,"underscore":4}],11:[function(require,module,exports){
 var Backbone = require('backbone');
-var ProjectListView = require('./ProjectLists-View.js');
+var _ = require('underscore');
+var $ = require('jquery');
 
 module.exports = Backbone.View.extend({
-    el: '#app_container',
-    initialize: function(){
+    tagName: 'li',
+    template: _.template($('#list_item_template').html()),
+    className: 'project_item',
+    initialize:function(){
         this.render();
     },
-
     render: function(){
-        var projectList = new ProjectListView({model:this.model});
-        this.$el.append(projectList.$el);
+        this.$el.html(this.template(this.model.attributes));
     }
 });
 
-},{"./ProjectLists-View.js":14,"backbone":1}],12:[function(require,module,exports){
+},{"backbone":1,"jquery":3,"underscore":4}],12:[function(require,module,exports){
 var Backbone = require('backbone');
 var $ = require('jquery');
 var ProjectItemView = require('./ProjectItem-View.js');
@@ -13476,34 +13497,16 @@ module.exports = Backbone.View.extend({
     }
 });
 
-},{"../config.js":6,"../util.js":9,"./ProjectItem-View.js":13,"backbone":1,"jquery":3}],13:[function(require,module,exports){
+},{"../config.js":6,"../util.js":9,"./ProjectItem-View.js":11,"backbone":1,"jquery":3}],13:[function(require,module,exports){
 var Backbone = require('backbone');
-var _ = require('underscore');
-var $ = require('jquery');
-
-module.exports = Backbone.View.extend({
-    tagName: 'li',
-    template: _.template($('#list_item_template').html()),
-    className: 'project_item',
-    initialize:function(){
-        this.render();
-    },
-    render: function(){
-        this.$el.html(this.template(this.model.attributes));
-    }
-});
-
-},{"backbone":1,"jquery":3,"underscore":4}],14:[function(require,module,exports){
-var Backbone = require('backbone');
-var ListView = require('./List-View.js');
+var ProjectListView = require('./ProjectList-View.js');
 var ProjectsListModel = require('../collection/ProjectsCollection.js');
 var _ = require('underscore');
 var $ = require('jquery');
 
 var tabList = ['recent', 'driver', 'observer'];
 module.exports = Backbone.View.extend({
-    tagName : 'section',
-    id: 'projects_list_container',
+    el:'#project_lists_wrap',
     template: _.template($('#list_template').html()),
     events: {
         "click #tab_switcher .tab" : "switchTab"
@@ -13519,9 +13522,9 @@ module.exports = Backbone.View.extend({
         var container = this.$el.find("#projects_container");
 
         var $model = this.model;
-        // Map list tab name to three ListView Backbone.View object
+        // Map list tab name to three ProjectListView Backbone.View object
         var lists = tabList.map(function(el){
-            var listview = new ListView({
+            var listview = new ProjectListView({
                 className : 'project_list ' + el,
                 attributes: {
                     "data-origin" : $model.dataOrigin
@@ -13530,7 +13533,7 @@ module.exports = Backbone.View.extend({
             });
             return listview;
         });
-        // Append three ListView object to #projects_container
+        // Append three ProjectListView object to #projects_container
         lists.forEach(function(ul){
             container.append(ul.$el);
         });
@@ -13556,7 +13559,7 @@ module.exports = Backbone.View.extend({
 
 });
 
-},{"../collection/ProjectsCollection.js":5,"./List-View.js":12,"backbone":1,"jquery":3,"underscore":4}],15:[function(require,module,exports){
+},{"../collection/ProjectsCollection.js":5,"./ProjectList-View.js":12,"backbone":1,"jquery":3,"underscore":4}],14:[function(require,module,exports){
 var Backbone = require('backbone'),
     $        = require('jquery'),
     _        = require('underscore');
@@ -13574,7 +13577,7 @@ module.exports = Backbone.View.extend({
     }
 });
 
-},{"backbone":1,"jquery":3,"underscore":4}],16:[function(require,module,exports){
+},{"backbone":1,"jquery":3,"underscore":4}],15:[function(require,module,exports){
 var Backbone = require('backbone');
 var _ = require('underscore');
 var $ = require('jquery');

@@ -1,0 +1,61 @@
+@import 'codemirror';
+@import 'pastel-on-dark';
+
+#editor_codemirror_container{
+    width: 70%;
+    position: absolute;
+    top: 0;
+    right: 0;
+    height: 100%;
+}
+
+#editor_toolbar{
+    height: 24px;
+    position: absolute;
+    top:0;
+    left: 0;
+    width:30%;
+}
+
+#gutter_container{
+    padding: 4px 0;
+    width: 24px;
+    height: 100%;
+    position: relative;
+    background-color: #34302F;
+    float: left;
+}
+
+.gutter_comment{
+    height:1.5rem;
+    position: relative;
+}
+
+.gutter_circle{
+    border-radius: 50%;
+    background-color: #FBC02D;
+    text-align: center;
+    line-height: 1.5rem;
+    height: 50%;
+    width: 50%;
+    position: absolute;
+    top: 25%;
+    left: 25%;
+}
+#comments_container{
+    position: absolute;
+    top: 50px;
+    left: 40px;
+    width: 200px;
+    z-index: 10;
+    background-color: #C5CAE9;
+    border-radius: 5px;
+    min-height: 10rem;
+    color: black;
+    font-family: 'source code pro', 'consolas',monospace;
+    display: none;
+
+    &.display{
+        display:block;
+    }
+}

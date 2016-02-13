@@ -2,13 +2,13 @@ var FormView = require('./Form-View.js');
 var $ = require('jquery');
 var config = require('../config.js');
 var baseUrl = config.baseUrl;
-var fetchUrl = baseUrl + '/getRelation';
+var fetchUrl = baseUrl + '/user/getRelation';
 var submitUrl = baseUrl + '/new_project';
 module.exports = FormView.extend({
     render: function(){
         var self = this;
         $.getJSON(fetchUrl, function(data){
-            console.log(data);
+            data = {friends: data};
             self.$el.append(self.template(data));
         });
     },

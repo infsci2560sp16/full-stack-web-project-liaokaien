@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+  <meta charset="UTF-8">
+  <title>Editor</title>
+  <link href="stylesheets/css/editor.css" rel="stylesheet"/>
+</head>
+<body>
+
+    <section id="editor_panel"> </section>
+    <section id="message_panel"> </section>
+
+    <script type="text/template" id="comment_box_template">
+        <% _.each(comments, function(comment, i){ %>
+        <div class="comment_item" data-line="<%- i %>">
+            <div class="comment_content"> <%- comment %></div>
+        </div>
+        <% }); %>
+    </script>
+    <script type="text/template" id="editor_panel_template">
+        <section id="editor_toolbar">
+            <div class="btn_save"> </div>
+            <div class="btn_quit"> </div>
+        </section>
+        <section id="editor_codemirror_container">
+            <section id="gutter_container">
+                <!-- use _.template to load data into comments_container -->
+                <% _.each(lines, function(line, i){ %>
+                <div class="gutter_comment" data-line="<%- i %>">
+                    <% if(line.length>0){ %>
+                    <div class="gutter_circle"> </div>
+                    <% } %>
+                </div>
+                <% }); %>
+                <div id="comments_container"> </div>
+            </section>
+            <!-- Container for CodeMirror Editor -->
+            <textarea cols="30" id="code_mirror" name="" rows="10"> </textarea>
+        </section>
+    </script>
+    <script type="text/template" id="message_panel_template">
+        <h2 class="messabe_board_title">Messages</h2>
+        <ol id="message_board">
+            <ol>
+            </ol>
+            <li class="message_box from_driver">
+                <span class="message_uname">Kane</span>
+                <span class="message_content">Hi!</span>
+            </li>
+
+            <li class="message_box from_observer">
+                <span class="message_uname">Tim</span>
+                <span class="message_content">Hi!</span>
+            </li>
+        </ol>
+
+        <form id="message_input">
+            <textarea cols="30" id="message_input_editable_area" name="" rows="10"> </textarea>
+            <input name="" type="button" value="Send"/>
+        </form>
+    </script>
+    <script src="bundle/editor.js"></script>
+</body>
+</html>

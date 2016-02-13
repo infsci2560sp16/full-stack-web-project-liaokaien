@@ -3,12 +3,21 @@ var _ = require('underscore');
 var config = require('./config.js');
 var baseUrl = config.baseUrl;
 var fetchUrl = baseUrl + '/banner_data';
-var path = window.location.pathname.slice(1);
+var path = window.location.pathname.slice(1).split('.')[0];
 var BannerView = require('./view/Banner-View.js');
 var util = require('./util.js');
-console.log(path);
 function renderBanner(data){
     new BannerView({
+        model: data
+    });
+}
+
+function renderUserList(res){
+    var data  = {
+        success: res.length?true:false,
+        userList: res
+    };
+    new UserListView({
         model: data
     });
 }
@@ -16,31 +25,42 @@ function renderBanner(data){
 // load notifications
 $.getJSON(fetchUrl, renderBanner);
 
+var ProjectsListView, ProfileView, UserListView;
 //Route url to dashboard view.
 if(path === 'index' || path === 'user_profile'){
-    var DashboardView = require('./view/Dashboard-View.js');
-    var ProfileView = require('./view/UserProfile-View.js');
+    ProjectsListView = require('./view/ProjectLists-View.js');
+    ProfileView   = require('./view/UserProfile-View.js');
+    UserListView  = require('./view/UserList-View.js');
 
     //Render dashboard
-    new DashboardView(
+    new ProjectsListView(
         {
             model: {
                 dataOrigin: path
             }
         });
+
     new ProfileView({
         model:{
             origin: path
         }
     });
 
+    if(path === 'index'){
+        fetchUrl = baseUrl + '/user/getRelation';
+    } else {
+        fetchUrl = baseUrl + '/user/' + util.getQueryParams().u + '/getRelation';
+    }
+    $.getJSON(fetchUrl, renderUserList);
+
+
     //Auto select 'Recent' Tab
     $('.tab.recent').click();
 }
 
 if(path === 'search_result'){
-    var UserListView = require('./view/UserList-View.js'),
-        query        = util.getQueryParams().q;
+    UserListView = require('./view/UserList-View.js');
+    var query    = util.getQueryParams().q;
     $.getJSON(baseUrl+'/search?q=' + query, function(res){
         var data  = {
             success: res.length?true:false,

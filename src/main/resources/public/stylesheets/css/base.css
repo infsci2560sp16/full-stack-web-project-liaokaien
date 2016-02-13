@@ -374,6 +374,13 @@ th {
   float: right;
   margin: 40px 0; }
 
+.list_header {
+  text-align: left;
+  width: 60%;
+  font-family: consolas;
+  margin: 20px auto 25px auto;
+  padding-bottom: 1em; }
+
 #tab_switcher {
   border-radius: 6px;
   width: 362px;
@@ -404,9 +411,9 @@ th {
       color: #F0F0F0;
       background-color: #5C6BC0; }
 
-#projects_container {
+#project_lists_wrap, #user_list_wrap {
   width: 60%;
-  margin: 0 auto; }
+  margin: 0 auto 50px auto; }
 
 .project_list {
   width: 100%;
@@ -696,8 +703,9 @@ th {
   color: #EEEEEE; }
 
 .user_list {
-  width: 40%;
-  margin: 60px auto 0 auto;
+  width: 100%;
+  margin: 0 auto;
+  padding: 0;
   list-style: none; }
 
 .user_list_item {
@@ -725,9 +733,13 @@ th {
     line-height: 1.5em;
     transform: translateY(0.25em);
     font-family: 'helvitica neue',sans-serif; }
+  .user_list_item span.list_item.username a {
+    color: #333;
+    text-decoration: none; }
   .user_list_item span.list_item.relation {
     background-color: #4CAF50; }
   .user_list_item span.list_item.btn_add_friend {
+    cursor: pointer;
     float: right;
     margin-right: 8px;
     background-color: #FF8F00; }

@@ -49,7 +49,9 @@
             <% if(success){ %>
             <% _.each(userList, function(user){ %>
             <li class="user_list_item">
-                <span class="list_item username"><%- user.uname %></span>
+                <span class="list_item username">
+                    <a href="/user_profile?uid=<%- user.uid %>"><%- user.uname %></a> 
+                </span>
                 <% if(user.relation === null){ %>
                 <span class="list_item btn_add_friend">Add as friend</span>
                 <% }else{ %>

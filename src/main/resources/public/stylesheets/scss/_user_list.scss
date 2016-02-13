@@ -1,7 +1,8 @@
 @import 'util';
 .user_list{
-    width:40%;
-    margin: 60px auto 0 auto;
+    width:100%;
+    margin: 0 auto;
+    padding:0;
     list-style:none;
 }
 
@@ -29,7 +30,9 @@
             transform: translateY(.25em);
             font-family: 'helvitica neue',sans-serif;
         }
-        &.username{
+        &.username a{
+            color: #333;
+            text-decoration: none;
         }
 
         &.relation{
@@ -38,6 +41,7 @@
 
 
         &.btn_add_friend{
+            cursor: pointer;
             float:right;
             margin-right: 8px;
             background-color: #FF8F00;
