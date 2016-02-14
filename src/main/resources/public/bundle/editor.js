@@ -13292,8 +13292,15 @@ var EditorView = require('./view/EditorView.js'),
     $ = require('jquery');
 
 
-new EditorView();
-new MessageView();
+new MessageView({
+    model:{
+        editor: new EditorView({
+            model:{
+                commentList: []
+            }
+        })
+    }
+});
 
 $('#comments_container').on('click', '.btn_close', function(){
     $('#comments_container').removeClass('display');
@@ -23067,36 +23074,39 @@ module.exports = Backbone.View.extend({
     el: '#editor_panel',
     template: _.template($('#editor_panel_template').html()),
     events: {
-        'click .gutter_comment': 'showComment'
+        'click .gutter_comment' : 'showComment'
     },
     initialize: function(){
-        this.render();
-    },
-    render: function(){
         var fetchUrl = baseUrl + '/document/123/comments';
         var self = this;
+        this.render();
+        var textArea = document.getElementById('code_mirror');
+        var options = {
+            value: "mode = 'javascript'",
+            mode:"javascript",
+            lineNumbers: true,
+            theme: 'pastel-on-dark'
+        };
+        window.cm = CodeMirror.fromTextArea(textArea, options);
+        // cm.setValue(new content);
+
+        // Load comments
         $.getJSON(fetchUrl, function(data){
             // Store the comments data; May use Model object to manage it later.
-            self.commentList = data;
-            self.$el.append(self.template({lines: data}));
-            var textArea = document.getElementById('code_mirror');
-            var options = {
-                value: "mode = 'javascript'",
-                mode:"javascript",
-                lineNumbers: true,
-                theme: 'pastel-on-dark'
-            };
-            window.cm = CodeMirror.fromTextArea(textArea, options);
-            window.widgetFac = function(){
-                var widget = document.createElement('div');
-                widget.classList.add('widget');
-                return widget;
-            };
-            // cm.setValue(new content);
-            console.log($('.CodeMirror-code').height());
+            self.model.commentList = data;
+            self.renderGutters();
         });
     },
+    render: function(){
+        this.$el.append(this.template());
+    },
 
+    renderGutters: function(){
+        var gutterTemplate = _.template($('#gutter_container_template').html());
+        this.$el.find('#gutter_container').html(gutterTemplate({
+            lines: this.model.commentList
+        }));
+    },
     showComment: function(event){
         var target = event.currentTarget;
         var lineNumber = target.dataset.line;
@@ -23104,8 +23114,8 @@ module.exports = Backbone.View.extend({
             lineNumber = parseInt(lineNumber);
         }
         var template = _.template($('#comment_box_template').html());
-        if(this.commentList[lineNumber].length === 0) return;
-        var commentBoxContent = template({comments:this.commentList[lineNumber]});
+        if(this.model.commentList[lineNumber].length === 0) return;
+        var commentBoxContent = template({comments:this.model.commentList[lineNumber]});
         $('#message_board').addClass('blur');
         $('#comments_container').html(commentBoxContent).addClass('display').css({
             top: (((lineNumber*1.5)+0.5) + 'rem')
@@ -23116,6 +23126,7 @@ module.exports = Backbone.View.extend({
             $('#comments_container').css({'margin-top':'0px'});
         }
     }
+
 });
 
 },{"../config.js":5,"../lib/codemirror.js":7,"../lib/panel.js":8,"../mode/javascript/javascript.js":9,"backbone":1,"jquery":3,"underscore":4}],11:[function(require,module,exports){
@@ -23128,12 +23139,25 @@ var baseUrl = config.baseUrl;
 
 module.exports = Backbone.View.extend({
     el: '#message_panel',
+    events:{
+        'click .btn_send'       : 'sendComment'
+    },
     template: _.template($('#message_panel_template').html()),
     initialize: function(){
         this.render();
     },
     render: function(){
         this.$el.append(this.template());
+    },
+
+    sendComment: function(){
+        var commentText = $('.message_input').val(),
+            lineNumber = commentText.match(/#(\d+)/)[1],
+            commentContent = commentText.replace(/#(\d+)/,'');
+
+        var cList = this.model.editor.model.commentList;
+        cList[lineNumber-1].push(commentContent.trim());
+        this.model.editor.renderGutters();
     }
 });
 

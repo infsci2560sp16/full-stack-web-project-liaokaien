@@ -3,8 +3,15 @@ var EditorView = require('./view/EditorView.js'),
     $ = require('jquery');
 
 
-new EditorView();
-new MessageView();
+new MessageView({
+    model:{
+        editor: new EditorView({
+            model:{
+                commentList: []
+            }
+        })
+    }
+});
 
 $('#comments_container').on('click', '.btn_close', function(){
     $('#comments_container').removeClass('display');
