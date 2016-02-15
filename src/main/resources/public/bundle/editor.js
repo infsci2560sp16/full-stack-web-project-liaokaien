@@ -13289,15 +13289,16 @@ module.exports = {
 },{}],6:[function(require,module,exports){
 var EditorView = require('./view/EditorView.js'),
     MessageView = require('./view/MessageBoard-View.js'),
+    CommentsModel = require('./model/Comments-Model.js'),
     $ = require('jquery');
 
 
 new MessageView({
     model:{
         editor: new EditorView({
-            model:{
-                commentList: []
-            }
+            model: new CommentsModel({
+                commentsList: new CommentsModel()
+            })
         })
     }
 });
@@ -13307,7 +13308,7 @@ $('#comments_container').on('click', '.btn_close', function(){
     $('#message_board').removeClass('blur');
 });
 
-},{"./view/EditorView.js":10,"./view/MessageBoard-View.js":11,"jquery":3}],7:[function(require,module,exports){
+},{"./model/Comments-Model.js":10,"./view/EditorView.js":11,"./view/MessageBoard-View.js":12,"jquery":3}],7:[function(require,module,exports){
 // CodeMirror, copyright (c) by Marijn Haverbeke and others
 // Distributed under an MIT license: http://codemirror.net/LICENSE
 
@@ -23058,6 +23059,14 @@ CodeMirror.defineMIME("application/typescript", { name: "javascript", typescript
 });
 
 },{"../../lib/codemirror.js":7}],10:[function(require,module,exports){
+var Backbone = require('backbone');
+
+module.exports = Backbone.Model.extend({
+    initialize: function(){
+    }
+});
+
+},{"backbone":1}],11:[function(require,module,exports){
 var Backbone = require('backbone'),
     CodeMirror = require('../lib/codemirror.js'),
     $ = require('jquery'),
@@ -23093,7 +23102,7 @@ module.exports = Backbone.View.extend({
         // Load comments
         $.getJSON(fetchUrl, function(data){
             // Store the comments data; May use Model object to manage it later.
-            self.model.commentList = data;
+            self.model.set({commentsList : data});
             self.renderGutters();
         });
     },
@@ -23104,7 +23113,7 @@ module.exports = Backbone.View.extend({
     renderGutters: function(){
         var gutterTemplate = _.template($('#gutter_container_template').html());
         this.$el.find('#gutter_container').html(gutterTemplate({
-            lines: this.model.commentList
+            lines: this.model.get('commentsList')
         }));
     },
     showComment: function(event){
@@ -23114,8 +23123,8 @@ module.exports = Backbone.View.extend({
             lineNumber = parseInt(lineNumber);
         }
         var template = _.template($('#comment_box_template').html());
-        if(this.model.commentList[lineNumber].length === 0) return;
-        var commentBoxContent = template({comments:this.model.commentList[lineNumber]});
+        if(this.model.get('commentsList')[lineNumber].length === 0) return;
+        var commentBoxContent = template({comments:this.model.get('commentsList')[lineNumber]});
         $('#message_board').addClass('blur');
         $('#comments_container').html(commentBoxContent).addClass('display').css({
             top: (((lineNumber*1.5)+0.5) + 'rem')
@@ -23129,7 +23138,7 @@ module.exports = Backbone.View.extend({
 
 });
 
-},{"../config.js":5,"../lib/codemirror.js":7,"../lib/panel.js":8,"../mode/javascript/javascript.js":9,"backbone":1,"jquery":3,"underscore":4}],11:[function(require,module,exports){
+},{"../config.js":5,"../lib/codemirror.js":7,"../lib/panel.js":8,"../mode/javascript/javascript.js":9,"backbone":1,"jquery":3,"underscore":4}],12:[function(require,module,exports){
 var Backbone = require('backbone'),
     $ = require('jquery'),
     _ = require('underscore'),
@@ -23155,7 +23164,7 @@ module.exports = Backbone.View.extend({
             lineNumber = commentText.match(/#(\d+)/)[1],
             commentContent = commentText.replace(/#(\d+)/,'');
 
-        var cList = this.model.editor.model.commentList;
+        var cList = this.model.editor.model.get('commentsList');
         cList[lineNumber-1].push(commentContent.trim());
         this.model.editor.renderGutters();
     }

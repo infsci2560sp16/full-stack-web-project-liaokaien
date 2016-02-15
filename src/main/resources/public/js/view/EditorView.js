@@ -33,7 +33,7 @@ module.exports = Backbone.View.extend({
         // Load comments
         $.getJSON(fetchUrl, function(data){
             // Store the comments data; May use Model object to manage it later.
-            self.model.commentList = data;
+            self.model.set({commentsList : data});
             self.renderGutters();
         });
     },
@@ -44,7 +44,7 @@ module.exports = Backbone.View.extend({
     renderGutters: function(){
         var gutterTemplate = _.template($('#gutter_container_template').html());
         this.$el.find('#gutter_container').html(gutterTemplate({
-            lines: this.model.commentList
+            lines: this.model.get('commentsList')
         }));
     },
     showComment: function(event){
@@ -54,8 +54,8 @@ module.exports = Backbone.View.extend({
             lineNumber = parseInt(lineNumber);
         }
         var template = _.template($('#comment_box_template').html());
-        if(this.model.commentList[lineNumber].length === 0) return;
-        var commentBoxContent = template({comments:this.model.commentList[lineNumber]});
+        if(this.model.get('commentsList')[lineNumber].length === 0) return;
+        var commentBoxContent = template({comments:this.model.get('commentsList')[lineNumber]});
         $('#message_board').addClass('blur');
         $('#comments_container').html(commentBoxContent).addClass('display').css({
             top: (((lineNumber*1.5)+0.5) + 'rem')

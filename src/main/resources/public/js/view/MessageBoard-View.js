@@ -23,7 +23,7 @@ module.exports = Backbone.View.extend({
             lineNumber = commentText.match(/#(\d+)/)[1],
             commentContent = commentText.replace(/#(\d+)/,'');
 
-        var cList = this.model.editor.model.commentList;
+        var cList = this.model.editor.model.get('commentsList');
         cList[lineNumber-1].push(commentContent.trim());
         this.model.editor.renderGutters();
     }
