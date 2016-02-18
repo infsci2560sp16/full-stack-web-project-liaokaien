@@ -38,7 +38,7 @@
             <% _.each(userList, function(user){ %>
             <li class="user_list_item">
                 <span class="list_item username">
-                    <a href="/user_profile?uid=<%- user.uid %>"><%- user.uname %></a>
+                    <a href="/user_profile.html?uid=<%- user.uid %>"><%- user.uname %></a>
                 </span>
                 <% if(user.relation === null){ %>
                 <span class="list_item btn_add_friend">Add as friend</span>
@@ -57,7 +57,7 @@
         <span class="project_name"><%- name %></span>
         <span class="project_type <%- type %>"><%- type %></span>
         <span class="related_user">
-            <a href="/user_profile?uid=<%- related_uid %>"><%- related_uname %></a>
+            <a href="/user_profile.html?uid=<%- related_uid %>"><%- related_uname %></a>
         </span>
     </script>
     <script type="text/template" id="banner_template">
@@ -87,7 +87,7 @@
                     <% }); %>
             </ul>
         </div>
-        <a href="/setting">
+        <a href="/setting.html">
             <div id="user_avatar" class="banner_element"></div>
         </a>
         <div id="search_user" class="banner_element">

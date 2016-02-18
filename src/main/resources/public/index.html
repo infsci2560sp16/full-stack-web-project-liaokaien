@@ -43,7 +43,7 @@
                     <% }); %>
             </ul>
         </div>
-        <a href="/setting">
+        <a href="/setting.html.html">
             <div id="user_avatar" class="banner_element"></div>
         </a>
         <div id="search_user" class="banner_element">
@@ -57,7 +57,7 @@
             <% _.each(userList, function(user){ %>
             <li class="user_list_item">
                 <span class="list_item username">
-                    <a href="/user_profile?uid=<%- user.uid %>"><%- user.uname %></a>
+                    <a href="/user_profile.html.html?uid=<%- user.uid %>"><%- user.uname %></a>
                 </span>
                 <% if(user.relation === null){ %>
                 <span class="list_item btn_add_friend">Add as friend</span>
@@ -83,7 +83,7 @@
 
         <!-- DONEs: Add a 'Create project' button -->
         <div id="btn_new_project">
-            <a href="/new_project">Create A New Project</a>
+            <a href="/new_project.html">Create A New Project</a>
         </div>
     </script>
 
@@ -98,7 +98,7 @@
         <span class="project_name"><%- name %></span>
         <span class="project_type <%- type %>"><%- type %></span>
         <span class="related_user">
-            <a href="/user_profile?uid=<%- related_uid %>"><%- related_uname %></a>
+            <a href="/user_profile.html.html?uid=<%- related_uid %>"><%- related_uname %></a>
         </span>
     </script>
 

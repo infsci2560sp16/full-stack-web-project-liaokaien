@@ -13339,7 +13339,7 @@ module.exports = Backbone.View.extend({
     },
     searchUser: function(event){
         var searchQuery = this.processQuery(event.target.value);
-        window.location.href = '/search_result?q=' + searchQuery;
+        window.location.href = '/search_result.html?q=' + searchQuery;
     }
 });
 
@@ -13382,7 +13382,7 @@ var config = require('../config.js');
 var baseUrl = config.baseUrl;
 var fetchUrl = baseUrl + "/login";
 module.exports = Backbone.View.extend({
-    el: 'section.form_container',
+    el: '.form_container',
     template: _.template($('#form_template').html()),
     events:{
         "click #btn_submit" : "submit",
@@ -13411,7 +13411,7 @@ module.exports = Backbone.View.extend({
         }
         $.post(fetchUrl, {token:token}, function(res){
             if(res.success && res.token === token){
-                window.location = '/index';
+                window.location = '/index.html';
             } else{
                 self.pop(res.error);
             }
@@ -13429,7 +13429,5 @@ module.exports = Backbone.View.extend({
 
 
 });
-
-
 
 },{"../config.js":5,"backbone":1,"jquery":3,"underscore":4}]},{},[6]);

@@ -13439,7 +13439,7 @@ module.exports = Backbone.View.extend({
     },
     searchUser: function(event){
         var searchQuery = this.processQuery(event.target.value);
-        window.location.href = '/search_result?q=' + searchQuery;
+        window.location.href = '/search_result.html?q=' + searchQuery;
     }
 });
 
@@ -13565,7 +13565,7 @@ var Backbone = require('backbone'),
     _        = require('underscore');
 
 module.exports = Backbone.View.extend({
-    el: 'section#user_list_wrap',
+    el: '#user_list_wrap',
     template : _.template($('#user_list_template').html()),
     initialize: function(){
         console.log(this.model);

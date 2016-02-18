@@ -32,6 +32,6 @@ module.exports = Backbone.View.extend({
     },
     searchUser: function(event){
         var searchQuery = this.processQuery(event.target.value);
-        window.location.href = '/search_result?q=' + searchQuery;
+        window.location.href = '/search_result.html?q=' + searchQuery;
     }
 });

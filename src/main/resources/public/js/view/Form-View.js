@@ -35,7 +35,7 @@ module.exports = Backbone.View.extend({
         }
         $.post(fetchUrl, {token:token}, function(res){
             if(res.success && res.token === token){
-                window.location = '/index';
+                window.location = '/index.html';
             } else{
                 self.pop(res.error);
             }
