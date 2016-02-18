@@ -8,7 +8,7 @@
 <body>
     <!--Banner-View goes here-->
     <nav id="app_banner"></nav>
-    <section id="user_list_wrap"></section>
+    <div id="user_list_wrap"></div>
     <!--************ Underscore Templates ****************-->
     <script type="text/template" id="banner_template">
         <div id="site_logo">
@@ -50,7 +50,7 @@
             <% _.each(userList, function(user){ %>
             <li class="user_list_item">
                 <span class="list_item username">
-                    <a href="/user_profile?uid=<%- user.uid %>"><%- user.uname %></a> 
+                    <a href="/user_profile?uid=<%- user.uid %>"><%- user.uname %></a>
                 </span>
                 <% if(user.relation === null){ %>
                 <span class="list_item btn_add_friend">Add as friend</span>

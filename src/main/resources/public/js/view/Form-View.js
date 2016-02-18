@@ -6,7 +6,7 @@ var config = require('../config.js');
 var baseUrl = config.baseUrl;
 var fetchUrl = baseUrl + "/login";
 module.exports = Backbone.View.extend({
-    el: 'section.form_container',
+    el: '.form_container',
     template: _.template($('#form_template').html()),
     events:{
         "click #btn_submit" : "submit",
@@ -53,5 +53,3 @@ module.exports = Backbone.View.extend({
 
 
 });
-
-

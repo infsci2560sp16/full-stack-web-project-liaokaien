@@ -17,7 +17,7 @@ module.exports = function(grunt) {
                 relaxerror: ['The Content-Type was “text/html”. Using the HTML parser.', 'Using the schema for HTML with SVG 1.1, MathML 3.0, RDFa 1.1, and ITS 2.0 support.', 'Bad value X-UA-Compatible for attribute http-equiv on element meta.'] //ignores these errors
             },
             files: {
-                src: '<%= srcFolder %>/public/**/*.html'
+				src: ['<%= srcFolder %>/public/**/*.html', '!<%= srcFolder %>/public/js/**/*.html']
             }
         },
         jshint: {

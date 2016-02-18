@@ -3,7 +3,7 @@ var Backbone = require('backbone'),
     _        = require('underscore');
 
 module.exports = Backbone.View.extend({
-    el: 'section#user_list_wrap',
+    el: '#user_list_wrap',
     template : _.template($('#user_list_template').html()),
     initialize: function(){
         console.log(this.model);

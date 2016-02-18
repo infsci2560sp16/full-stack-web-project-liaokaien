@@ -1,10 +1,10 @@
 #site_desc{
     font-family:  'avenir';
     margin-left: 68px;
-    h1 { 
+    h2 { 
         font-style: italic;
     }
-    
+
     p{
         margin-left: 36px;
     }
@@ -40,12 +40,12 @@
         max-width: 30%;
         margin-right: 24px;
         transform: translateY(.5em);
-    }    
-    
+    }
+
     input:-webkit-autofill {
         -webkit-box-shadow: 0 0 0px 1000px white inset;
     }
-    
+
     input[type='password'], input[type='text']{
         background: none;
         border: none;
@@ -55,7 +55,7 @@
             outline: none;
         }
     }
-    
+
     &.hidden{
         display:none;
     }
@@ -87,7 +87,7 @@
 #btn_cancel{
     background-color: #E57373;
 }
-    
+
 #sign_up_tip{
     a{
         color:#26A69A;
