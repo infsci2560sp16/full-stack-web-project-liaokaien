@@ -6,7 +6,7 @@ $banner_height: 3em;
 #app_banner{
     $color_banner : #F0F0F0;
     @include clearfix();
-    
+
     background-color: $color_banner;
     box-shadow: 0px 2px 1px 1px #E6E6E6;
     height: $banner_height;
@@ -20,12 +20,12 @@ $banner_height: 3em;
 
 
 #site_logo{
-    background: url(/images/logo.png) center center/ 100% no-repeat;
+    background: url(/images/Logo.png) center center/ 100% no-repeat;
     text-indent: -9999px;
     width:128px;
     height: $banner_height;
     margin-left: 84px;
-    
+
 }
 
 
@@ -73,7 +73,7 @@ $notification_list_width: 14em;
     position: relative;
     top: ($banner_height - 2)/2;;
     height: 2em;
-    
+
 }
 
 #sign_out>svg{
@@ -101,4 +101,3 @@ $notification_list_width: 14em;
     }
 
 }
-
