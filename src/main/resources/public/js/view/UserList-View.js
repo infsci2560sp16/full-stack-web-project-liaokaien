@@ -6,7 +6,6 @@ module.exports = Backbone.View.extend({
     el: '#user_list_wrap',
     template : _.template($('#user_list_template').html()),
     initialize: function(){
-        console.log(this.model);
         this.render();
     },
 

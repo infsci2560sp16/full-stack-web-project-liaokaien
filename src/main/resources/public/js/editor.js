@@ -7,9 +7,9 @@ var EditorView = require('./view/EditorView.js'),
 new MessageView({
     model:{
         editor: new EditorView({
-            model: new CommentsModel({
+            model: {
                 commentsList: new CommentsModel()
-            })
+            }
         })
     }
 });

@@ -61,7 +61,7 @@ if(path === 'index' || path === 'user_profile'){
 if(path === 'search_result'){
     UserListView = require('./view/UserList-View.js');
     var query    = util.getQueryParams().q;
-    $.getJSON(baseUrl+'/search?q=' + query, function(res){
+    $.getJSON('/search?q=' + query, function(res){
         var data  = {
             success: res.length?true:false,
             userList: res

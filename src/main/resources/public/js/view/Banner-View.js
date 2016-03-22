@@ -9,7 +9,6 @@ module.exports = Backbone.View.extend({
     el: '#app_banner',
     template: _.template($('#banner_template').html()),
     events: {
-        // "event selector" : "handler"
         "mouseenter #btn_notification":    "showNotificationBox",
         "mouseleave #notification":   "hideNotificationBox",
         "change #search_user input":        "searchUser"
