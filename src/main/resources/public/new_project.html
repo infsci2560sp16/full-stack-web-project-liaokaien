@@ -49,7 +49,7 @@
         </div>
     </script>
     <script type="text/template" id="form_template">
-        <form action="">
+        <form action="/project">
             <div class="form_row">
                 <label for="form_project_name">Project name</label>
                 <input id="form_project_name" name="pname" type="text" value=""/>
@@ -65,12 +65,23 @@
                 </section>
             </div>
             <div class="align_center btn_group">
-                <input name="login" id="btn_submit"   type="button" value="Create"/>
+                <input name="create" id="btn_submit"  type="button" value="Create"/>
                 <input name="cancel" id="btn_cancel"  type="button" value="Cancel"/>
             </div>
         </form>
     </script>
-    <script>
+    <script type="text/template" id="confirm_template">
+    <div class="confirm form_container">
+        <h3>Your project <span class="project_name"><%- name %></span> has been successfully created;</h3>
+        <p>
+            And your friend
+            <a href="/user_profile.html?uid=<%- related_uid %>"><%- related_uname %></a>
+            has been invited as the observer;
+        </p>
+        <div class="align_center btn_group">
+            <a href="/index.html"><input name="create" id="btn_submit"  type="button" value="Confirm"/></a>
+        </div>
+    </div>
     </script>
     <script src="bundle/new_project.js" type="application/javascript"></script>
 </body>

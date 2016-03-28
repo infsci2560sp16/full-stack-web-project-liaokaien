@@ -1,9 +1,10 @@
 var FormView = require('./Form-View.js');
 var $ = require('jquery');
+var _ = require('underscore');
 var config = require('../config.js');
 var baseUrl = config.baseUrl;
 var fetchUrl = baseUrl + '/user/getRelation';
-var submitUrl = baseUrl + '/new_project';
+var submitUrl = '/project';
 module.exports = FormView.extend({
     render: function(){
         var self = this;
@@ -14,11 +15,14 @@ module.exports = FormView.extend({
     },
     submit: function(){
         var data = {
-            projectName : this.$el.find("#form_project_name").val(),
-            observer : this.$el.find('#invite_dropdown select').val()
+            project_name : this.$el.find("#form_project_name").val(),
+            observer_id : this.$el.find('#invite_dropdown select').val()
         };
         $.post(submitUrl, data, function(res){
-        });
+            var template = _.template($('#confirm_template').html());
+            $('#site_desc').remove();
+            this.$el.html(template(res)); // Clear all content;       
+        }.bind(this));
     },
 
     pop: function(){

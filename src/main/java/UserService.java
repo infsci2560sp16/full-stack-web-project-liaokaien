@@ -1,6 +1,7 @@
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.HashMap;
 
 /**
  * Created by liaokaien on 3/22/16.
@@ -21,5 +22,9 @@ public class UserService {
         searchResult.add(UserFact(213, query,null));
         searchResult.add(UserFact(205, "Mike", "friend"));
         return searchResult;
+    }
+
+    public List<Project> recentProject (String uid){
+        HashMap<>
     }
 }

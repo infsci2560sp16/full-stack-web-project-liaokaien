@@ -13316,7 +13316,6 @@ module.exports = Backbone.View.extend({
     el: '#app_banner',
     template: _.template($('#banner_template').html()),
     events: {
-        // "event selector" : "handler"
         "mouseenter #btn_notification":    "showNotificationBox",
         "mouseleave #notification":   "hideNotificationBox",
         "change #search_user input":        "searchUser"
@@ -13346,10 +13345,11 @@ module.exports = Backbone.View.extend({
 },{"../config.js":5,"backbone":1,"jquery":3,"underscore":4}],8:[function(require,module,exports){
 var FormView = require('./Form-View.js');
 var $ = require('jquery');
+var _ = require('underscore');
 var config = require('../config.js');
 var baseUrl = config.baseUrl;
 var fetchUrl = baseUrl + '/user/getRelation';
-var submitUrl = baseUrl + '/new_project';
+var submitUrl = '/project';
 module.exports = FormView.extend({
     render: function(){
         var self = this;
@@ -13360,11 +13360,14 @@ module.exports = FormView.extend({
     },
     submit: function(){
         var data = {
-            projectName : this.$el.find("#form_project_name").val(),
-            observer : this.$el.find('#invite_dropdown select').val()
+            project_name : this.$el.find("#form_project_name").val(),
+            observer_id : this.$el.find('#invite_dropdown select').val()
         };
         $.post(submitUrl, data, function(res){
-        });
+            var template = _.template($('#confirm_template').html());
+            $('#site_desc').remove();
+            this.$el.html(template(res)); // Clear all content;       
+        }.bind(this));
     },
 
     pop: function(){
@@ -13373,7 +13376,7 @@ module.exports = FormView.extend({
     }
 });
 
-},{"../config.js":5,"./Form-View.js":9,"jquery":3}],9:[function(require,module,exports){
+},{"../config.js":5,"./Form-View.js":9,"jquery":3,"underscore":4}],9:[function(require,module,exports){
 var Backbone = require('backbone');
 var _ = require('underscore');
 var $ = require('jquery');

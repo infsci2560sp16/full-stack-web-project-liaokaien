@@ -28,6 +28,18 @@
         align-items: flex-start;
         justify-content: space-between;
     }
+    
+    .confirm{
+        width: 60%;
+        margin: 0 auto;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-between;
+        .btn_group{
+            justify-content: center;
+        }
+    }
 }
 
 .form_row, .dropdown_wrap{
@@ -107,4 +119,9 @@
 
 .dropdown_wrap{
     margin-top: 48px;
+}
+
+.confirm{
+    // Confirmation occuring after form submitted
+    
 }

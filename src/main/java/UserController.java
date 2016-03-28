@@ -11,6 +11,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import static spark.Spark.get;
+import java.util.UUID;
 
 public class UserController {
     public UserController(final UserService userService){
@@ -21,7 +22,6 @@ public class UserController {
             attributes.put("userList", userList);
             Gson gson = new Gson();
             String json = gson.toJson(attributes);
-//            System.out.println(json);
             return new ModelAndView(attributes, "search_result.ftl");
         }, new FreeMarkerEngine());
 

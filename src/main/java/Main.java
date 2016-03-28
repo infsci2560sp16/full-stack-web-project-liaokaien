@@ -22,9 +22,10 @@ public class Main {
 
     port(Integer.valueOf(System.getenv("PORT")));
     staticFileLocation("/public");
-    get("/hello", (req, res) -> "Hello");
+
 
     new UserController(new UserService());
+    new ProjectController();
 
   }
 

@@ -13360,7 +13360,7 @@ if(path === 'index' || path === 'user_profile'){
 if(path === 'search_result'){
     UserListView = require('./view/UserList-View.js');
     var query    = util.getQueryParams().q;
-    $.getJSON(baseUrl+'/search?q=' + query, function(res){
+    $.getJSON('/search?q=' + query, function(res){
         var data  = {
             success: res.length?true:false,
             userList: res
@@ -13416,7 +13416,6 @@ module.exports = Backbone.View.extend({
     el: '#app_banner',
     template: _.template($('#banner_template').html()),
     events: {
-        // "event selector" : "handler"
         "mouseenter #btn_notification":    "showNotificationBox",
         "mouseleave #notification":   "hideNotificationBox",
         "change #search_user input":        "searchUser"
@@ -13568,7 +13567,6 @@ module.exports = Backbone.View.extend({
     el: '#user_list_wrap',
     template : _.template($('#user_list_template').html()),
     initialize: function(){
-        console.log(this.model);
         this.render();
     },
 
