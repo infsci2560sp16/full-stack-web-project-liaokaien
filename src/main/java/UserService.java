@@ -24,7 +24,5 @@ public class UserService {
         return searchResult;
     }
 
-    public List<Project> recentProject (String uid){
-        HashMap<>
-    }
+
 }

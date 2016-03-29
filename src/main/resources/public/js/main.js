@@ -6,28 +6,14 @@ var fetchUrl = baseUrl + '/banner_data';
 var path = window.location.pathname.slice(1).split('.')[0];
 var BannerView = require('./view/Banner-View.js');
 var util = require('./util.js');
-function renderBanner(data){
-    new BannerView({
-        model: data
-    });
-}
-
-function renderUserList(res){
-    var data  = {
-        success: res.length?true:false,
-        userList: res
-    };
-    new UserListView({
-        model: data
-    });
-}
 
 // load notifications
 $.getJSON(fetchUrl, renderBanner);
 
 var ProjectsListView, ProfileView, UserListView;
+
 //Route url to dashboard view.
-if(path === 'index' || path === 'user_profile'){
+if (path === 'index' || path === 'user_profile'){
     ProjectsListView = require('./view/ProjectLists-View.js');
     ProfileView   = require('./view/UserProfile-View.js');
     UserListView  = require('./view/UserList-View.js');
@@ -41,15 +27,15 @@ if(path === 'index' || path === 'user_profile'){
         });
 
     new ProfileView({
-        model:{
+        model: {
             origin: path
         }
     });
 
-    if(path === 'index'){
-        fetchUrl = baseUrl + '/user/getRelation';
+    if (path === 'index'){
+        fetchUrl = baseUrl + '/user/relation';
     } else {
-        fetchUrl = baseUrl + '/user/' + util.getQueryParams().u + '/getRelation';
+        fetchUrl = baseUrl + '/user/' + util.getQueryParams().u + '/relation';
     }
     $.getJSON(fetchUrl, renderUserList);
 
@@ -58,19 +44,37 @@ if(path === 'index' || path === 'user_profile'){
     $('.tab.recent').click();
 }
 
-if(path === 'search_result'){
+if (path === 'search_result'){
     UserListView = require('./view/UserList-View.js');
-    var query    = util.getQueryParams().q;
+    var query = util.getQueryParams().q;
     $.getJSON('/search?q=' + query, function(res){
-        var data  = {
-            success: res.length?true:false,
+        var data = {
+            success: res.length,
             userList: res
         };
         new UserListView({
-            model:data
+            model: data
         });
     });
 }
 //Route url to user_profile view.
 
 //Route url to user search view.
+
+
+
+function renderBanner(data){
+    new BannerView({
+        model: data
+    });
+}
+
+function renderUserList(res){
+    var data  = {
+        success: res.length,
+        userList: res
+    };
+    new UserListView({
+        model: data
+    });
+}

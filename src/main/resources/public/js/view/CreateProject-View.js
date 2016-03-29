@@ -3,7 +3,7 @@ var $ = require('jquery');
 var _ = require('underscore');
 var config = require('../config.js');
 var baseUrl = config.baseUrl;
-var fetchUrl = baseUrl + '/user/getRelation';
+var fetchUrl = baseUrl + '/user/relation';
 var submitUrl = '/project';
 module.exports = FormView.extend({
     render: function(){
@@ -15,13 +15,14 @@ module.exports = FormView.extend({
     },
     submit: function(){
         var data = {
-            project_name : this.$el.find("#form_project_name").val(),
-            observer_id : this.$el.find('#invite_dropdown select').val()
+            project_name: this.$el.find('form_project_name').val(),
+            observer_id: this.$el.find('#invite_dropdown select').val()
         };
         $.post(submitUrl, data, function(res){
             var template = _.template($('#confirm_template').html());
             $('#site_desc').remove();
-            this.$el.html(template(res)); // Clear all content;       
+            this.$el.html(template(res));
+            // Clear all content;
         }.bind(this));
     },
 

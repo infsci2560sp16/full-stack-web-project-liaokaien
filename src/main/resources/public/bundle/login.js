@@ -13300,13 +13300,14 @@ var $ = require('jquery');
 
 var config = require('../config.js');
 var baseUrl = config.baseUrl;
-var fetchUrl = baseUrl + "/login";
+var fetchUrl = baseUrl + '/login';
+
 module.exports = Backbone.View.extend({
     el: '.form_container',
     template: _.template($('#form_template').html()),
     events:{
-        "click #btn_submit" : "submit",
-        "click #btn_cancel" : "cancel"
+        'click #btn_submit': 'submit',
+        'click #btn_cancel': 'cancel'
     },
     initialize : function(){
         this.render();
@@ -13321,18 +13322,18 @@ module.exports = Backbone.View.extend({
             token = btoa(password + ':' + uname),
             self = this;
         var passwordConfirmation = this.$el.find('#form_confirm_password').val();
-        if(typeof passwordConfirmation !== "undefined"  ){
-            if(passwordConfirmation !== password) {
-                this.pop("Please confirm password again");
+        if (typeof passwordConfirmation !== 'undefined' ){
+            if (passwordConfirmation !== password) {
+                this.pop('Please confirm password again');
                 return;
-            }else{
-                fetchUrl = "http://www.liaokaien.com/api/code2gether/signup";
+            }else {
+                fetchUrl = 'http://www.liaokaien.com/api/code2gether/signup';
             }
         }
         $.post(fetchUrl, {token:token}, function(res){
-            if(res.success && res.token === token){
+            if (res.success && res.token === token){
                 window.location = '/index.html';
-            } else{
+            } else {
                 self.pop(res.error);
             }
         });
@@ -13346,8 +13347,6 @@ module.exports = Backbone.View.extend({
         // Indicate the error message
         this.$el.find('.error_msg').text(error);
     }
-
-
 });
 
 },{"../config.js":5,"backbone":1,"jquery":3,"underscore":4}]},{},[6]);
