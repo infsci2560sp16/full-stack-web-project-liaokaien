@@ -24,7 +24,7 @@ public class Main {
     staticFileLocation("/public");
 
 
-    new UserController(new UserService());
+    new UserController(new UserService(), new ProjectService());
     new ProjectController();
 
   }

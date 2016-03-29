@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" >
+    <xs:element name="Projects">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="Project" maxOccurs="unbounded" type ="ProjectType">
+                </xs:element>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:complexType name="ProjectType">
+        <xs:sequence>
+            <xs:element name="related_uid" type="custom_string"></xs:element>
+            <xs:element name="related_uname" type="custom_string"></xs:element>
+            <xs:element name="type" type="xs:string"></xs:element>
+            <xs:element name="name" type="custom_string"></xs:element>
+        </xs:sequence>
+        <xs:attribute name="id" type="custom_string" use="required"></xs:attribute>
+    </xs:complexType>
+
+
+    <xs:simpleType name="custom_string">
+        <xs:restriction base="xs:string">
+            <xs:pattern value="[a-zA-Z0-9_\\-]+"></xs:pattern>
+        </xs:restriction>
+    </xs:simpleType>
+
+</xs:schema>

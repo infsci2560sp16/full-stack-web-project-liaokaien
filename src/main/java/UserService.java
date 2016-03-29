@@ -1,7 +1,4 @@
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.HashMap;
+import java.util.*;
 
 /**
  * Created by liaokaien on 3/22/16.
@@ -22,6 +19,37 @@ public class UserService {
         searchResult.add(UserFact(213, query,null));
         searchResult.add(UserFact(205, "Mike", "friend"));
         return searchResult;
+    }
+
+    public List<Project> recentProject(UUID uid){
+        List<Project> projectList = new ArrayList();
+        User sessionUser = new User("Jeff");
+        User randomUser1 = new User("Steve");
+        User randomUser2 = new User("John");
+        Project example1 = new Project("Django", "driver", sessionUser, randomUser1);
+        Project example2 = new Project("Flask", "Observer", randomUser2, sessionUser);
+
+        projectList.add(example1);
+        projectList.add(example2);
+        return projectList;
+    }
+
+    public List<Project> driverProject(UUID uid){
+        List<Project> projectList = new ArrayList();
+        User sessionUser = new User("Jeff");
+        User randomUser1 = new User("Steve");
+        Project example1 = new Project("Django", "driver", sessionUser, randomUser1);
+        projectList.add(example1);
+        return projectList;
+    }
+
+    public List<Project> observerProject(UUID uid){
+        List<Project> projectList = new ArrayList();
+        User sessionUser = new User("Jeff");
+        User randomUser2 = new User("John");
+        Project example2 = new Project("Flask", "Observer", randomUser2, sessionUser);
+        projectList.add(example2);
+        return projectList;
     }
 
 
