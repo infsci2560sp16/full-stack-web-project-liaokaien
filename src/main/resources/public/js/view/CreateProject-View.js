@@ -1,9 +1,7 @@
 var FormView = require('./Form-View.js');
 var $ = require('jquery');
 var _ = require('underscore');
-var config = require('../config.js');
-var baseUrl = config.baseUrl;
-var fetchUrl = baseUrl + '/user/relation';
+var fetchUrl = '/user/relation';
 var submitUrl = '/project';
 module.exports = FormView.extend({
     render: function(){

@@ -13291,7 +13291,7 @@ var config = require('./config.js');
 var baseUrl = config.baseUrl;
 var fetchUrl = baseUrl + '/banner_data';
 var BannerView = require('./view/Banner-View.js');
-var CreateProjectView =require('./view/CreateProject-View.js');
+var CreateProjectView = require('./view/CreateProject-View.js');
 var $ = require('jquery');
 
 new CreateProjectView();
@@ -13346,9 +13346,7 @@ module.exports = Backbone.View.extend({
 var FormView = require('./Form-View.js');
 var $ = require('jquery');
 var _ = require('underscore');
-var config = require('../config.js');
-var baseUrl = config.baseUrl;
-var fetchUrl = baseUrl + '/user/relation';
+var fetchUrl = '/user/relation';
 var submitUrl = '/project';
 module.exports = FormView.extend({
     render: function(){
@@ -13377,7 +13375,7 @@ module.exports = FormView.extend({
     }
 });
 
-},{"../config.js":5,"./Form-View.js":9,"jquery":3,"underscore":4}],9:[function(require,module,exports){
+},{"./Form-View.js":9,"jquery":3,"underscore":4}],9:[function(require,module,exports){
 var Backbone = require('backbone');
 var _ = require('underscore');
 var $ = require('jquery');
@@ -13389,11 +13387,11 @@ var fetchUrl = baseUrl + '/login';
 module.exports = Backbone.View.extend({
     el: '.form_container',
     template: _.template($('#form_template').html()),
-    events:{
+    events: {
         'click #btn_submit': 'submit',
         'click #btn_cancel': 'cancel'
     },
-    initialize : function(){
+    initialize: function(){
         this.render();
     },
     render: function(){

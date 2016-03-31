@@ -13491,7 +13491,7 @@ module.exports = Backbone.View.extend({
             self = this,
             listType = this.className.split(' ')[1],
             uid = util.getQueryParams().u,
-            fetchUrl = origin === 'dashboard' ? baseUrl + '/user/projects' : baseUrl + '/user/'+ uid + '/projects';
+            fetchUrl = origin === 'dashboard' ? baseUrl + '/user/projects' : baseUrl + '/user/' + uid + '/projects';
         fetchUrl += '/' + listType;
         this.model.url = fetchUrl;
         $.getJSON(fetchUrl, function(data){

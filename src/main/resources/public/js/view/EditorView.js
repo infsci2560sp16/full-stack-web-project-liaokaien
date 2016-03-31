@@ -14,7 +14,7 @@ module.exports = Backbone.View.extend({
     el: '#editor_panel',
     template: _.template($('#editor_panel_template').html()),
     events: {
-        'click .gutter_comment' : 'showComment'
+        'click .gutter_comment': 'showComment'
     },
     initialize: function(){
         var fetchUrl = baseUrl + '/document/123/comments';
@@ -23,7 +23,7 @@ module.exports = Backbone.View.extend({
         var textArea = document.getElementById('code_mirror');
         var options = {
             value: "mode = 'javascript'",
-            mode:"javascript",
+            mode: 'javascript',
             lineNumbers: true,
             theme: 'pastel-on-dark'
         };
@@ -33,7 +33,7 @@ module.exports = Backbone.View.extend({
         // Load comments
         $.getJSON(fetchUrl, function(data){
             // Store the comments data; May use Model object to manage it later.
-            self.model.set({commentsList : data});
+            self.model.set({commentsList: data});
             self.renderGutters();
         });
     },
@@ -50,20 +50,20 @@ module.exports = Backbone.View.extend({
     showComment: function(event){
         var target = event.currentTarget;
         var lineNumber = target.dataset.line;
-        if(typeof lineNumber !== 'number'){
-            lineNumber = parseInt(lineNumber);
+        if (typeof lineNumber !== 'number'){
+            lineNumber = parseInt(lineNumber, 10);
         }
         var template = _.template($('#comment_box_template').html());
-        if(this.model.get('commentsList')[lineNumber].length === 0) return;
-        var commentBoxContent = template({comments:this.model.get('commentsList')[lineNumber]});
+        if (this.model.get('commentsList')[lineNumber].length === 0) return;
+        var commentBoxContent = template({comments: this.model.get('commentsList')[lineNumber]});
         $('#message_board').addClass('blur');
         $('#comments_container').html(commentBoxContent).addClass('display').css({
-            top: (((lineNumber*1.5)+0.5) + 'rem')
+            top: lineNumber * 1.5 + 0.5 + 'rem'
         });
-        if(lineNumber === 0){
-            $('#comments_container').css({'margin-top':'-8px'});
-        }else{
-            $('#comments_container').css({'margin-top':'0px'});
+        if (lineNumber === 0){
+            $('#comments_container').css({'margin-top': '-8px'});
+        }else {
+            $('#comments_container').css({'margin-top': '0px'});
         }
     }
 

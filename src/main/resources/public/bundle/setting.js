@@ -13363,11 +13363,11 @@ var fetchUrl = baseUrl + '/login';
 module.exports = Backbone.View.extend({
     el: '.form_container',
     template: _.template($('#form_template').html()),
-    events:{
+    events: {
         'click #btn_submit': 'submit',
         'click #btn_cancel': 'cancel'
     },
-    initialize : function(){
+    initialize: function(){
         this.render();
     },
     render: function(){
