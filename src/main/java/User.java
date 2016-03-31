@@ -14,6 +14,12 @@ public class User {
         relation = null;
     }
 
+    public User(String uname, UUID uid){
+        this.uname = uname;
+        this.uid = uid;
+        relation = null;
+    }
+
     public HashMap getUserData(){
         HashMap map = new HashMap();
         map.put("uid", this.uid);

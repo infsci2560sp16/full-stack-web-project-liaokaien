@@ -23,11 +23,11 @@ public class UserService {
 
     public List<Project> recentProject(UUID uid){
         List<Project> projectList = new ArrayList();
-        User sessionUser = new User("Jeff");
+        User sessionUser = new User("Jeff", uid);
         User randomUser1 = new User("Steve");
         User randomUser2 = new User("John");
-        Project example1 = new Project("Django", "driver", sessionUser, randomUser1);
-        Project example2 = new Project("Flask", "Observer", randomUser2, sessionUser);
+        Project example1 = new Project("Django", sessionUser, randomUser1);
+        Project example2 = new Project("Flask", randomUser2, sessionUser);
 
         projectList.add(example1);
         projectList.add(example2);
@@ -36,18 +36,18 @@ public class UserService {
 
     public List<Project> driverProject(UUID uid){
         List<Project> projectList = new ArrayList();
-        User sessionUser = new User("Jeff");
+        User sessionUser = new User("Jeff", uid);
         User randomUser1 = new User("Steve");
-        Project example1 = new Project("Django", "driver", sessionUser, randomUser1);
+        Project example1 = new Project("Django", sessionUser, randomUser1);
         projectList.add(example1);
         return projectList;
     }
 
     public List<Project> observerProject(UUID uid){
         List<Project> projectList = new ArrayList();
-        User sessionUser = new User("Jeff");
+        User sessionUser = new User("Jeff", uid);
         User randomUser2 = new User("John");
-        Project example2 = new Project("Flask", "Observer", randomUser2, sessionUser);
+        Project example2 = new Project("Flask", randomUser2, sessionUser);
         projectList.add(example2);
         return projectList;
     }

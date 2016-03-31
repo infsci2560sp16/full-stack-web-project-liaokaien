@@ -21,7 +21,7 @@ module.exports = Backbone.View.extend({
 
     xml2Json: function(XMLDocument) {
         var json;
-        var projects = XMLDocument.getElementsByTag('Project');
+        var projects = XMLDocument.getElementsByTagName('Project');
         projects = Array.prototype.slice.call(projects);
         json = projects.map(function(project){
            var data = {
@@ -47,7 +47,7 @@ module.exports = Backbone.View.extend({
         $.ajax(fetchUrl, {
             method: 'GET',
             success: function(data) {
-                data = this.xml2Json(data);
+                data = self.xml2Json(data);
                 self.model.reset(data);
                 self.addProjectItems();
             }

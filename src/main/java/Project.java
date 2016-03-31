@@ -11,7 +11,7 @@ public class Project {
     private User observer;
 
 
-    public Project(String projectName, String type, User driver, User observer){
+    public Project(String projectName, User driver, User observer){
         this.projectName = projectName;
         this.observer = observer;
         this.driver = driver;
