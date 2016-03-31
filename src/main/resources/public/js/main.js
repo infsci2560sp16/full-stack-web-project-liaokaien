@@ -15,8 +15,8 @@ var ProjectsListView, ProfileView, UserListView;
 //Route url to dashboard view.
 if (path === 'index' || path === 'user_profile'){
     ProjectsListView = require('./view/ProjectLists-View.js');
-    ProfileView   = require('./view/UserProfile-View.js');
-    UserListView  = require('./view/UserList-View.js');
+    ProfileView = require('./view/UserProfile-View.js');
+    UserListView = require('./view/UserList-View.js');
 
     //Render dashboard
     new ProjectsListView(
@@ -33,12 +33,11 @@ if (path === 'index' || path === 'user_profile'){
     });
 
     if (path === 'index'){
-        fetchUrl = baseUrl + '/user/relation';
+        fetchUrl = '/user/relation';
     } else {
-        fetchUrl = baseUrl + '/user/' + util.getQueryParams().u + '/relation';
+        fetchUrl = '/user/' + util.getQueryParams().u + '/relation';
     }
     $.getJSON(fetchUrl, renderUserList);
-
 
     //Auto select 'Recent' Tab
     $('.tab.recent').click();

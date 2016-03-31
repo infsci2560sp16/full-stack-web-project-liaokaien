@@ -6,12 +6,12 @@ var $ = require('jquery');
 
 var tabList = ['recent', 'driver', 'observer'];
 module.exports = Backbone.View.extend({
-    el:'#project_lists_wrap',
+    el: '#project_lists_wrap',
     template: _.template($('#list_template').html()),
     events: {
-        "click #tab_switcher .tab" : "switchTab"
+        'click #tab_switcher .tab': 'switchTab'
     },
-    initialize : function(){
+    initialize: function(){
         this.render();
 
     },
@@ -19,15 +19,15 @@ module.exports = Backbone.View.extend({
         // Render the basic structure
         this.$el.append(this.template());
 
-        var container = this.$el.find("#projects_container");
+        var container = this.$el.find( '#projects_container');
 
         var $model = this.model;
         // Map list tab name to three ProjectListView Backbone.View object
         var lists = tabList.map(function(el){
             var listview = new ProjectListView({
-                className : 'project_list ' + el,
+                className: 'project_list ' + el,
                 attributes: {
-                    "data-origin" : $model.dataOrigin
+                    'data-origin': $model.dataOrigin
                 },
                 model: new ProjectsListModel()
             });
@@ -53,7 +53,7 @@ module.exports = Backbone.View.extend({
                 }).join(',');
                 var element = self.$el.find(selector);
                 element.removeClass('selected');
-                if(operation[1]) element.addClass('selected');
+                if (operation[1]) element.addClass('selected');
             });
     }
 

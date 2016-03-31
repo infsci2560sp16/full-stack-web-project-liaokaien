@@ -13315,8 +13315,8 @@ var ProjectsListView, ProfileView, UserListView;
 //Route url to dashboard view.
 if (path === 'index' || path === 'user_profile'){
     ProjectsListView = require('./view/ProjectLists-View.js');
-    ProfileView   = require('./view/UserProfile-View.js');
-    UserListView  = require('./view/UserList-View.js');
+    ProfileView = require('./view/UserProfile-View.js');
+    UserListView = require('./view/UserList-View.js');
 
     //Render dashboard
     new ProjectsListView(
@@ -13333,12 +13333,11 @@ if (path === 'index' || path === 'user_profile'){
     });
 
     if (path === 'index'){
-        fetchUrl = baseUrl + '/user/relation';
+        fetchUrl = '/user/relation';
     } else {
-        fetchUrl = baseUrl + '/user/' + util.getQueryParams().u + '/relation';
+        fetchUrl = '/user/' + util.getQueryParams().u + '/relation';
     }
     $.getJSON(fetchUrl, renderUserList);
-
 
     //Auto select 'Recent' Tab
     $('.tab.recent').click();
@@ -13470,33 +13469,54 @@ var $ = require('jquery');
 var ProjectItemView = require('./ProjectItem-View.js');
 var util = require('../util.js');
 var config = require('../config.js');
-var baseUrl = config.baseUrl;
 
 module.exports = Backbone.View.extend({
-    tagName : 'ul',
-    initialize: function(){
+    tagName: 'ul',
+    initialize: function() {
         this.render();
     },
-    addProjectItems: function(){
+    addProjectItems: function() {
         var self = this;
-        this.model.models.forEach(function(model){
+        this.model.models.forEach(function(model) {
             var item = new ProjectItemView({
                 model: model
             });
             self.$el.append(item.$el);
         });
     },
-    render: function(){
+
+    xml2Json: function(XMLDocument) {
+        var json;
+        var projects = XMLDocument.getElementsByTag('Project');
+        projects = Array.prototype.slice.call(projects);
+        json = projects.map(function(project){
+           var data = {
+               name: project.getElementsByTagName('name')[0].textContent,
+               project_id: project.id,
+               related_uid:project.getElementsByTagName('related_uid')[0].textContent,
+               related_uname: project.getElementsByTagName('related_uname')[0].textContent,
+               type: project.getElementsByTagName('type')[0].textContent
+           };
+           return data;
+        });
+        return json;
+    },
+
+    render: function() {
         var origin = this.attributes['data-origin'],
             self = this,
             listType = this.className.split(' ')[1],
             uid = util.getQueryParams().u,
-            fetchUrl = origin === 'dashboard' ? baseUrl + '/user/projects' : baseUrl + '/user/' + uid + '/projects';
+            fetchUrl = origin === 'index' ? '/user/projects' : '/user/' + uid + '/projects';
         fetchUrl += '/' + listType;
         this.model.url = fetchUrl;
-        $.getJSON(fetchUrl, function(data){
-            self.model.reset(data);
-            self.addProjectItems();
+        $.ajax(fetchUrl, {
+            method: 'GET',
+            success: function(data) {
+                data = this.xml2Json(data);
+                self.model.reset(data);
+                self.addProjectItems();
+            }
         });
     }
 });
@@ -13510,12 +13530,12 @@ var $ = require('jquery');
 
 var tabList = ['recent', 'driver', 'observer'];
 module.exports = Backbone.View.extend({
-    el:'#project_lists_wrap',
+    el: '#project_lists_wrap',
     template: _.template($('#list_template').html()),
     events: {
-        "click #tab_switcher .tab" : "switchTab"
+        'click #tab_switcher .tab': 'switchTab'
     },
-    initialize : function(){
+    initialize: function(){
         this.render();
 
     },
@@ -13523,15 +13543,15 @@ module.exports = Backbone.View.extend({
         // Render the basic structure
         this.$el.append(this.template());
 
-        var container = this.$el.find("#projects_container");
+        var container = this.$el.find( '#projects_container');
 
         var $model = this.model;
         // Map list tab name to three ProjectListView Backbone.View object
         var lists = tabList.map(function(el){
             var listview = new ProjectListView({
-                className : 'project_list ' + el,
+                className: 'project_list ' + el,
                 attributes: {
-                    "data-origin" : $model.dataOrigin
+                    'data-origin': $model.dataOrigin
                 },
                 model: new ProjectsListModel()
             });
@@ -13557,7 +13577,7 @@ module.exports = Backbone.View.extend({
                 }).join(',');
                 var element = self.$el.find(selector);
                 element.removeClass('selected');
-                if(operation[1]) element.addClass('selected');
+                if (operation[1]) element.addClass('selected');
             });
     }
 
